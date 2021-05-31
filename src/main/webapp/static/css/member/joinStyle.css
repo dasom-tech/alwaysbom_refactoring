@@ -1,0 +1,94 @@
+#container {
+    height: auto;
+}
+.member .join {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 110000;
+    opacity: 1;
+}
+.member .member_wrap {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+#join_us_select.member .member_content {
+    max-width: 335px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 0;
+    display: block;
+    position: static;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: -.16px;
+    color: #222;
+}
+* {
+    box-sizing: border-box;
+}
+#join_us_select.member .member_content .join_us_2nd .link.email, #login_us_select.member .member_content .join_us_2nd .link.email {
+    padding-left: 0;
+    color: #fff;
+    background: #222;
+}
+#join_us_select.member .member_content .let_join+.link, #login_us_select.member .member_content .let_join+.link {
+    margin-top: 20px;
+}
+
+#join_us_select.member .member_content .join_us_2nd .link+.sns, #login_us_select.member .member_content .join_us_2nd .link+.sns {
+    margin-top: 20px;
+}
+#join_us_select.member .member_content .join_us_2nd .sns, #login_us_select.member .member_content .join_us_2nd .sns {
+    padding: 20px 0;
+    border-top: #ececec 1px solid;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 300;
+    letter-spacing: -.21px;
+    color: #222;
+    text-align: center;
+}
+p {
+    margin: 0;
+    outline-width: 1px;
+    display: block;
+    padding: 0;
+    letter-spacing: -.5px;
+    outline-width: 1px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+body, button, input, select, table, textarea {
+    font-family: 'Noto Sans KR',sans-serif,NanumGothic,'나눔고딕',Dotum,'돋움',Helvetica,"Apple SD Gothic Neo";
+}
+#join_us_select.member .member_content .join_us_2nd .link.kakao, #login_us_select.member .member_content .join_us_2nd .link.kakao {
+    padding-left: 0;
+    color: #0d0d0d;
+    background: #ffd900;
+}
+#join_us_select.member .member_content .join_us_2nd .link+.link, #login_us_select.member .member_content .join_us_2nd .link+.link {
+    margin-top: 10px;
+}
+div {
+    display: block;
+}
+
+.let_join {
+    color: #0dcaf0;
+}
+.blind {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    margin: -1px;
+    width: 1px;
+    height: 1px;
+}

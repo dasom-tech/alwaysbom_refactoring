@@ -1,0 +1,169 @@
+/*--- header ---*/
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ffc107;
+    min-width: 1280px;
+}
+
+/* 로그인 바 */
+.login-bar {
+    top: 0;
+    min-width: 1280px;
+    width: 1280px;
+    height: 40px;
+    font-size: 14px;
+    line-height: 40px;
+    padding: 0 3em;
+    /*border: 2px solid yellowgreen;*/
+}
+.login-bar a {
+    text-decoration: none;
+    color: #656565;
+}
+.login-bar a:hover {
+    color: #333333;
+}
+.login-bar ul {
+    list-style: none;
+    color: #808080;
+}
+.login-bar li {
+    padding: 0 0.6em;
+}
+
+/* 메뉴 바 */
+.h-menu-bar {
+    min-width: 1280px;
+    width: 1280px;
+    height: 79px;
+    font-size: 17px;
+    padding: 0 3em 0 1.8em;
+    /*border: 1px solid greenyellow;*/
+}
+.h-menu-bar a {
+    text-decoration: none;
+    color: #222222;
+}
+.h-menu-bar a:hover {
+    color: #ffc107;
+    transition: all 0.3s;
+}
+.logo {
+    width: 155px;
+    height: 67px;
+}
+.logo:hover {
+    cursor: pointer;
+}
+.h-menu-wrap {
+    list-style: none;
+}
+.h-menu {
+    margin-top: 10px;
+    padding: 1em 1em 1.2em 1em;
+    position: relative;
+    z-index : 1;
+}
+.h-menu:last-child {
+    padding-right: 3em;
+}
+.h-menu-icon {
+    margin-top: 10px;
+    padding: 0.8em 0.8em 0.5em 0.5em;
+}
+.h-menu-svg {
+    width: auto;
+    height: 27px;
+}
+.h-menu-svg:hover {
+    cursor: pointer;
+}
+.under-bar {
+    border-top: 4px solid #ffc107;
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s;
+    transform: translate(0, 10px);
+}
+#under-bar1 {
+    width: 84px;
+}
+#under-bar2 {
+    width: 46px;
+}
+#under-bar3 {
+    width: 90px;
+}
+#under-bar4 {
+    width: 46px;
+}
+#under-bar5 {
+    width: 65px;
+}
+.h-submenu {
+    width: 130px;
+    margin: 0;
+    padding-left: 20px;
+    list-style: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #979e97;
+    border-top: 4px solid #ffc107;
+    left: 50%;
+    transform: translate(-55px, 10px);
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    /*box-shadow: 0 0.2em 5px #cccccc;*/
+}
+.h-submenu li {
+    line-height: 3em;
+}
+.h-submenu a {
+    color: #666666;
+    font-size: 17px;
+}
+.h-submenu a:hover {
+    color: #ffc107;
+    font-weight: 500;
+}
+.h-menu:hover .h-submenu {
+    opacity: 1;
+    pointer-events: auto;
+}
+.h-menu:hover .under-bar {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 헤더 메뉴에 active 표시 */
+.menu-active {
+    color: #ffc107 !important;
+}
+.menu-active > a {
+    /*font-weight: 500;*/
+    color: #ffc107 !important;
+}
+.menu-active .under-bar {
+    opacity: 1;
+    transition-duration: 0.2s;
+}
+
+
+/*--- footer ---*/
+footer {
+    min-width: 1280px;
+    z-index: 100;
+    background-color: #303030;
+    width: 100%;
+    color: #bdbdbd;
+    margin-bottom: 0 !important;
+}
+.footer-container {
+    width: 1280px;
+    padding: 4.7em 2.8em 4.7em 2.8em;
+}

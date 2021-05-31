@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="coupon">
+    <insert id="addCoupon" parameterType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        INSERT INTO COUPON(IDX, NAME, MEMBER_ID, STATUS, POINT, CDATE)
+        VALUES (null, #{name}, #{memberId}, #{status}, #{point}, SYSDATE)
+        <selectKey resultType="int" order="AFTER" keyProperty="idx" keyColumn="IDX">
+            SELECT COUPON_SEQ.currval FROM DUAL
+        </selectKey>
+    </insert>
+    
+    <select id="findBySearchOption" parameterType="com.flo.alwaysbom.coupon.vo.CouponVo" resultType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        SELECT * FROM COUPON
+        <where>
+            <if test="status != null">
+                STATUS = #{status}
+            </if>
+            <if test="memberId != null and memberId.length > 0">
+                AND MEMBER_ID LIKE '%' || #{memberId} || '%'
+            </if>
+        </where>
+        ORDER BY IDX DESC
+    </select>
+
+    <select id="findByIdx" resultType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        SELECT * FROM COUPON WHERE IDX = #{idx}
+    </select>
+
+    <update id="updateCoupon" parameterType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        UPDATE COUPON
+        SET NAME = #{name}, MEMBER_ID = #{memberId}, POINT = #{point}
+        WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteByIdx" parameterType="int">
+        DELETE FROM COUPON
+        WHERE IDX = #{idx}
+    </delete>
+
+    <update id="updateCouponStatus" parameterType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        UPDATE COUPON
+        SET STATUS = #{status}
+        WHERE IDX = #{idx}
+    </update>
+</mapper>

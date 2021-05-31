@@ -1,0 +1,391 @@
+@charset "UTF-8";
+
+
+#btn_margin {
+    margin-right: 170px;
+}
+
+#sub_btn1, #sub_btn2 {
+    font-size: 23px;
+    padding: 0px 80px 10px 80px;
+    border: none;
+    background-color: white;
+    color: black;
+    box-shadow: none;
+    border-bottom: 4px solid #ffcd32;
+}
+.btn-group {
+    margin: 20px 50px;
+}
+#subs_infos {
+    padding: 110px 0px 10px 0px;
+}
+#subs_infos2 {
+    padding: 80px 90px 10px 0px;
+}
+
+.subscription_category_tabs .tit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 48px;
+    border: #d3d3d3 1px solid;
+    font-size: 14px;
+    line-height: 48px;
+    font-weight: 100;
+    letter-spacing: -.21px;
+    color: #787878;
+    text-align: center
+}
+
+.subscription_category_tabs .tit.is_active {
+    color: #0d0d0d;
+    font-weight: 300;
+    background: #ffcd32;
+    border-color: #ffcd32
+}
+
+.subscription_category_tabs .tit.subscribe {
+    left: 20px;
+    right: 50%;
+    -webkit-border-radius: 5px 0 0 5px;
+    -moz-border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px;
+    border-right: none
+}
+
+.subscription_category_tabs .tit.how_to {
+    left: 50%;
+    right: 20px;
+    -webkit-border-radius: 0 5px 5px 0;
+    -moz-border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
+    border-left: none
+}
+
+.subscription_category_tabs .category_product_list .products {
+    margin: 0
+}
+
+.subscription_category_tabs .category_product_list .products .list {
+    width: 100%;
+    padding: 0;
+    border-bottom: #ececec 1px solid
+}
+
+.subscription_category_tabs .category_product_list .products .list:last-of-type {
+    border-bottom: none
+}
+
+.subscription_category_tabs .category_product_list .products .list+.list {
+    margin-top: 20px
+}
+
+@media (min-width:1080px) {
+    .subscription_category_tabs {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 110px 60px 0
+    }
+
+    .subscription_category_tabs .tit {
+        left: 50%;
+        height: 40px;
+        border: none;
+        font-size: 18px;
+        line-height: 28px;
+        font-weight: 300;
+        letter-spacing: -.27px;
+        color: #787878
+    }
+
+    .subscription_category_tabs .tit.is_active {
+        color: #222;
+        background: 0 0;
+        border-bottom: #ffcd32 3px solid !important
+    }
+
+    .subscription_category_tabs .tit.subscribe {
+        width: 275px;
+        left: 50%;
+        right: inherit;
+        margin-left: -275px;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        border: none
+    }
+
+    .subscription_category_tabs .tit.how_to {
+        width: 275px;
+        left: 50%;
+        right: inherit;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        border: none
+    }
+
+    .subscription_category_tabs .category_product_list .inbox {
+        padding: 0
+    }
+
+    .subscription_category_tabs .category_product_list .products .list {
+        padding: 0 0 40px
+    }
+
+    .subscription_category_tabs .category_product_list .products .list+.list {
+        margin-top: 40px
+    }
+
+    .subscription_category_tabs .category_product_list .products .list:nth-of-type(even) {
+        position: relative
+    }
+
+    .subscription_category_tabs .category_product_list .products .list:nth-of-type(even) .category_product_detail.is_subscription .detail .thumnail {
+        float: right;
+        margin-left: 20px
+    }
+
+    .subscription_category_tabs .category_product_list .products .list:nth-of-type(even) .category_product_detail.is_subscription .detail .summary {
+        padding-left: 40px
+    }
+}
+
+.subscription_how_to {
+    padding: 0 20px
+}
+
+.subscription_how_to .how_tit {
+    text-align: center;
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: 500;
+    letter-spacing: -.27px;
+    color: #222
+}
+
+.subscription_how_to .how_tit+.how_step {
+    margin-top: 20px
+}
+
+.subscription_how_to .how_tit+.how_tip {
+    margin-top: 30px
+}
+
+.subscription_how_to .how_step .list:after {
+    content: '';
+    display: block;
+    clear: both
+}
+
+.subscription_how_to .how_step .list+.list {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: #ececec 1px solid
+}
+
+.subscription_how_to .how_step .list .ico {
+    display: block;
+    float: left;
+    margin-left: 10px
+}
+
+.subscription_how_to .how_step .list .ico.s1+.step {
+    padding-top: 34px
+}
+
+.subscription_how_to .how_step .list .desc,
+.subscription_how_to .how_step .list .step {
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 300;
+    letter-spacing: -.21px;
+    color: #222;
+    text-align: left
+}
+
+.subscription_how_to .how_step .list .desc>b,
+.subscription_how_to .how_step .list .step>b {
+    font-weight: 500
+}
+
+.subscription_how_to .how_step .list .desc .pc,
+.subscription_how_to .how_step .list .step .pc {
+    display: none
+}
+
+.subscription_how_to .how_step .list .step {
+    padding-top: 42px;
+    font-weight: 700;
+    color: #ffcd32
+}
+
+.subscription_how_to .how_step+.how_tip {
+    margin-top: 30px
+}
+
+.subscription_how_to .how_tip {
+    padding: 20px;
+    background-color: #f7f7f7
+}
+
+.subscription_how_to .how_tip .line {
+    position: relative;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 300;
+    letter-spacing: -.21px;
+    color: #222
+}
+
+
+@media (min-width:1280px) {
+    .subscription_how_to {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .subscription_how_to .how_tit {
+        font-size: 26px;
+        line-height: 38px;
+        font-weight: 500;
+        letter-spacing: -.39px;
+        color: #222
+    }
+
+    .subscription_how_to .how_tit+.how_step {
+        margin-top: 80px
+    }
+
+    .subscription_how_to .how_tit+.how_tip {
+        margin-top: 80px
+    }
+
+    .subscription_how_to .how_step:after {
+        content: '';
+        display: block;
+        clear: both
+    }
+
+    .subscription_how_to .how_step .list {
+        float: left;
+        width: 25%
+    }
+
+    .subscription_how_to .how_step .list+.list {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none
+    }
+
+    .subscription_how_to .how_step .list+.list:before {
+        position: absolute;
+        top: 0;
+        left: -12px;
+        margin-left: 0;
+        margin-top: 0;
+        background-position: -1182px -58px;
+        width: 24px;
+        height: 180px;
+        background-size: 1252px 845px
+    }
+
+    .subscription_how_to .how_step .list .ico {
+        float: none;
+        margin: 0 auto;
+    }
+
+    .subscription_how_to .how_step .list .ico.s1 {
+        background-position: -802px -58px;
+        width: 180px;
+        height: 180px;
+        background-size: 1252px 845px
+    }
+
+    .subscription_how_to .how_step .list .ico.s1+.step {
+        padding-top: 30px
+    }
+
+    .subscription_how_to .how_step .list .ico.s2 {
+        background-position: -992px -58px;
+        width: 180px;
+        height: 180px;
+        background-size: 1252px 845px
+    }
+
+    .subscription_how_to .how_step .list .ico.s3 {
+        background-position: -612px -58px;
+        width: 180px;
+        height: 180px;
+        background-size: 1252px 845px
+    }
+
+    .subscription_how_to .how_step .list .ico.s4 {
+        background-position: -612px -248px;
+        width: 180px;
+        height: 180px;
+        background-size: 1252px 845px
+    }
+
+    .subscription_how_to .how_step .list .desc,
+    .subscription_how_to .how_step .list .step {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 300;
+        letter-spacing: -.24px;
+        color: #222;
+        text-align: center
+    }
+
+    .subscription_how_to .how_step .list .desc>b,
+    .subscription_how_to .how_step .list .step>b {
+        font-weight: 700
+    }
+
+    .subscription_how_to .how_step .list .desc .pc,
+    .subscription_how_to .how_step .list .step .pc {
+        display: block
+    }
+
+    .subscription_how_to .how_step .list .desc .m,
+    .subscription_how_to .how_step .list .step .m {
+        display: none
+    }
+
+    .subscription_how_to .how_step .list .step {
+        padding-top: 30px;
+        font-weight: 500;
+        color: #ffcd32
+    }
+
+    .subscription_how_to .how_step+.how_tip {
+        margin-top: 80px
+    }
+
+    .subscription_how_to .how_tip {
+        clear: both;
+        padding: 30px;
+        text-align: center
+    }
+
+    .subscription_how_to .how_tip .line {
+        display: inline-block;
+        padding-left: 18px;
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: 300;
+        letter-spacing: -.21px;
+        color: #222
+    }
+
+    .subscription_how_to .how_tip .line>br {
+        display: none
+    }
+
+    .subscription_how_to .how_tip .line:before {
+        top: 4px
+    }
+}

@@ -1,0 +1,84 @@
+#container {
+    padding: 1em 1em 100px 1em;
+}
+
+/* 유저 이동경로 */
+#bread-nav {
+    display: flex;
+    font-size: 16px;
+    padding-top: 20px;
+}
+#bread-nav li {
+    color: #4D4D4D;
+    text-decoration: none;
+}
+#bread-nav li:not(:last-child):hover {
+    text-decoration: underline;
+    color: #4D4D4D;
+    cursor: pointer;
+}
+#bread-nav > ol {
+    background-color: #dcdcdc;
+    padding: 0.3em 1em;
+    border-radius: 10px;
+}
+#bread-nav .active {
+    color: #808080;
+}
+
+
+/* 썸네일-주문정보 */
+.thumb-order {
+    margin-bottom: 5em;
+}
+
+/* 썸네일 이미지 */
+.thumbnails {
+    width: 45%;
+}
+
+/* 주문 정보 */
+.order-info {
+    width: 46.5%;
+}
+.subheader {
+    font-size: 16px;
+    font-weight: 300;
+    color: #808080;
+}
+.item-name {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.8em;
+    padding-bottom: 0.3em;
+}
+.row {
+    margin-bottom: 1.2em;
+}
+.discount-rate {
+    font-size: 19px;
+    font-weight: 600;
+}
+.original-price {
+    font-size: 19px;
+    font-weight: 300;
+    color: #808080;
+}
+.fw500 {
+    font-weight: 500;
+}
+.sub-button {
+    width: 49%;
+    border-radius: 10px;
+    background-color: #dbdbdb;
+}
+.main-button {
+    width: 49%;
+    border-radius: 10px;
+    background-color: #90c757;
+}
+.btn-close-style {
+    border: 1px solid #585858;
+    width: 14px;
+    height: 14px;
+}

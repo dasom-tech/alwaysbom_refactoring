@@ -1,0 +1,18 @@
+:root {
+    --header-height: 60px;
+    --footer-height: 270px;
+}
+
+header {
+    height: var(--header-height);
+}
+
+footer {
+    height: var(--footer-height);
+}
+
+#container {
+    min-height: calc(calc(100vh - var(--header-height)) - var(--footer-height));
+    padding: 0;
+    margin: 0 auto;
+}

@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+/* 관리자 */
+
+#ordersListContent {
+    padding-bottom: 100px;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.order-lists {
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #a1a1a1;
+    margin-top: 50px;
+    padding: 30px 0 30px 0;
+}
+
+#order-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.row {
+    margin-top: 50px;
+}
+
+.btn-outline-primary {
+    color: #343a40;
+    border-color: #343a40;
+    height: 70px;
+    padding-top: 20px;
+}
+
+.btn-check:active+.btn-outline-primary,
+.btn-check:checked+.btn-outline-primary,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show,
+.btn-outline-primary:active {
+    color: white;
+    background-color: #3a3a3a;
+    border: #3a3a3a 1px solid;
+}
+
+.btn-check:active+.btn-outline-primary,
+.btn-check:checked+.btn-outline-primary,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show,
+.btn-outline-primary:hover {
+    color: white;
+    background-color: #3a3a3a;
+    border: #3a3a3a 1px solid;
+}
+
+.image_size {
+    width: 140px;
+    height: 140px;
+    border: 1px solid #dedede;
+    float: left;
+}
+
+.detail {
+    padding-left: 190px;
+}
+
+#order-button {
+    margin-left: 10px;
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+.table > :not(:last-child) > :last-child > * {
+    border-bottom-color: #a1a1a1;
+}
+
+.option_status {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#order-date {
+    margin-bottom: 5px;
+}
+
+.btn .badge {
+    background-color: #ffba80;
+}
+
+/* 4/5 */
+
+#price_color {
+    color: #0c4128;
+}

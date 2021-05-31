@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com.flo.alwaysbom" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 파일 업로드 용 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    
+    <!-- 로그인 인터셉터 관련 -->
+    <bean id="loginInterceptor" class="com.flo.alwaysbom.util.interceptor.LoginInterceptor"/>
+    <bean id="adminInterceptor" class="com.flo.alwaysbom.util.interceptor.AdminInterceptor"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/cart/**"/>
+            <mvc:mapping path="/order/**"/>
+            <mvc:mapping path="/orders/**"/>
+            <mvc:mapping path="/fclass/payment"/>
+            <mvc:mapping path="/myPage"/>
+            <mvc:mapping path="/myPage_faq_main"/>
+            <mvc:mapping path="/member_grade"/>
+            <mvc:mapping path="/member_update"/>
+            <mvc:mapping path="/mypage_review"/>
+            <mvc:mapping path="/member_point"/>
+            <mvc:mapping path="/member_delete"/>
+            <ref bean="loginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:exclude-mapping path="/admin/login"/>
+            <mvc:exclude-mapping path="/admin/**/api/**"/>
+            <mvc:exclude-mapping path="/admin/community/**"/>
+            <mvc:exclude-mapping path="/admin/question/**"/>
+            <mvc:exclude-mapping path="/admin/faq/**"/>
+            <mvc:exclude-mapping path="/admin/event/**"/>
+            <ref bean="adminInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+    <insert id="addSchedule" parameterType="com.flo.alwaysbom.fclass.vo.ScheduleVo">
+        INSERT INTO SCHEDULE
+        VALUES (NULL, #{branchIdx}, #{fclassIdx}, #{sdate}, #{smonth},
+                #{sday}, #{startTime}, #{endTime}, #{totalCount}, #{regCount})
+    <selectKey keyProperty="idx" resultType="int" order="AFTER">
+        SELECT SCHEDULE_SEQ.currval FROM DUAL
+    </selectKey>
+    </insert>
+
+    <select id="searchSchedule" parameterType="com.flo.alwaysbom.fclass.vo.ScheduleVo" resultType="com.flo.alwaysbom.fclass.vo.ScheduleVo">
+        SELECT * FROM SCHEDULE
+        WHERE FCLASS_IDX = #{fclassIdx} AND BRANCH_IDX = #{branchIdx} AND SDATE >= SYSDATE
+            <if test="sdate != null">
+            AND TO_CHAR(SDATE, 'YYYY-MM-DD') = TO_CHAR(#{sdate}, 'YYYY-MM-DD')
+            </if>
+        ORDER BY SDATE
+    </select>
+
+    <select id="findByIdx" parameterType="int" resultType="com.flo.alwaysbom.fclass.vo.ScheduleVo">
+        SELECT * FROM SCHEDULE
+        WHERE IDX=#{idx}
+    </select>
+
+    <delete id="deleteSchedule" parameterType="list">
+        DELETE FROM SCHEDULE WHERE IDX IN
+        <foreach collection="list" item="idx" open="(" separator="," close=")" >
+           #{idx}
+        </foreach>
+    </delete>
+<!-- DELETE FROM SCHEDULE WHERE IDX in (1, 3, 5, 6, 7) : idx가 1,3,5,6,7 인 것들을 지워라-->
+
+    <update id="updateSchedule" parameterType="com.flo.alwaysbom.fclass.vo.ScheduleVo">
+        UPDATE SCHEDULE
+        SET SDATE = #{sdate}, START_TIME = #{startTime}, END_TIME = #{endTime},
+            TOTAL_COUNT = #{totalCount}
+        WHERE IDX = #{idx}
+    </update>
+
+    <update id="updateRegCount" parameterType="com.flo.alwaysbom.fclass.vo.ScheduleVo">
+        UPDATE SCHEDULE
+        SET REG_COUNT = #{regCount}
+        WHERE IDX = #{idx}
+    </update>
+
+</mapper>

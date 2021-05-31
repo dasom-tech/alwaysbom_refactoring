@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main">
+    <select id="getImages" resultType="com.flo.alwaysbom.main.vo.MainImage">
+        SELECT * FROM MAIN_IMAGE
+    </select>
+
+    <select id="getConfig" resultType="com.flo.alwaysbom.main.vo.MainVo">
+        SELECT NVL(FCLASS_IDX_BIG, 0) as FCLASS_IDX_BIG, NVL(FCLASS_IDX_SMALL, 0) as FCLASS_IDX_SMALL FROM MAIN
+    </select>
+
+    <update id="updateConfig" parameterType="com.flo.alwaysbom.main.vo.MainVo">
+        UPDATE MAIN
+        SET FCLASS_IDX_BIG = #{fclassIdxBig}, FCLASS_IDX_SMALL = #{fclassIdxSmall}
+    </update>
+
+    <update id="updateImages" parameterType="com.flo.alwaysbom.main.vo.MainImage">
+        UPDATE MAIN_IMAGE
+        SET PATH = #{path}, LINK = #{link}
+        WHERE IDX = #{idx}
+    </update>
+
+
+</mapper>

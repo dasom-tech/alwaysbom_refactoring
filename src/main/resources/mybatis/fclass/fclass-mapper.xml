@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fclass">
+    <insert id="addClass" parameterType="com.flo.alwaysbom.fclass.vo.FclassVo">
+        INSERT INTO FCLASS
+        VALUES (NULL, #{category}, #{name}, #{subheader}, #{price}, #{discountRate},
+                #{image1}, #{image2}, #{image3}, #{content}, #{count})
+        <selectKey keyProperty="idx" order="AFTER" resultType="int">
+            SELECT FCLASS_SEQ.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="updateFclass" parameterType="com.flo.alwaysbom.fclass.vo.FclassVo">
+        UPDATE FCLASS
+        SET CATEGORY = #{category}, NAME = #{name},
+            SUBHEADER = #{subheader}, PRICE = #{price},
+            DISCOUNT_RATE = #{discountRate}, IMAGE1 = #{image1},
+            IMAGE2 = #{image2}, IMAGE3 = #{image3}, CONTENT = #{content},
+            COUNT = #{count}
+        WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteFclass" parameterType="int">
+        DELETE FROM FCLASS
+        WHERE IDX = #{idx}
+    </delete>
+
+    <resultMap id="fclassMap" type="com.flo.alwaysbom.fclass.vo.FclassVo" autoMapping="true">
+        <id property="idx" column="IDX"/>
+        <collection property="branchList" column="IDX" ofType="com.flo.alwaysbom.fclass.vo.BranchVo" select="findConnectedBranchList"/>
+    </resultMap>
+
+    <select id="findConnectedBranchList" resultType="com.flo.alwaysbom.fclass.vo.BranchVo" parameterType="int">
+        SELECT B.* from BRANCH B inner join FCB on B.IDX = FCB.BRANCH_IDX
+        where FCB.FCLASS_IDX = #{idx}
+        ORDER BY B.NAME
+    </select>
+
+    <select id="findByIdx" parameterType="int" resultMap="fclassMap">
+        SELECT * FROM FCLASS
+        WHERE IDX = #{idx}
+        ORDER BY IDX
+    </select>
+
+    <select id="findAll" resultMap="fclassMap">
+        SELECT * FROM FCLASS ORDER BY IDX
+    </select>
+
+    <delete id="deleteClassBranch" parameterType="int">
+        DELETE FROM FCB WHERE FCLASS_IDX = #{idx}
+    </delete>
+
+
+    <select id="findClassByCategory" parameterType="string" resultMap="fclassMap">
+        SELECT * FROM FCLASS
+        WHERE CATEGORY = #{category}
+        ORDER BY IDX
+    </select>
+
+    <insert id="addFcb" parameterType="map">
+        INSERT INTO FCB
+        VALUES (#{fclassIdx}, #{branchIdx})
+    </insert>
+
+    <select id="findReviewsCount" parameterType="int" resultType="int">
+        SELECT COUNT(IDX)
+        FROM REVIEW
+        WHERE FCLASS_IDX = #{idx}
+    </select>
+
+    <select id="findReviewsByOption" parameterType="map" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        select *
+        from (select ROW_NUMBER() OVER (ORDER BY IDX DESC) as rn, R.*
+              from review R
+              where fclass_idx = #{idx})
+        where RN between #{startIndex}
+                  and #{endIndex}
+    </select>
+</mapper>

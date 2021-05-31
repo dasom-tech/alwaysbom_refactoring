@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+    <select id="allBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
+        FROM REVIEW I
+        )
+        WHERE RN BETWEEN 1 and 10
+    </select>
+
+
+    <select id="allReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="map">
+        SELECT *
+        FROM REVIEW
+        <where>
+            <if test="category == '클래스'">
+                CATEGORY = #{category} AND FCLASS_IDX = #{idx}
+            </if>
+            <if test="category == '꽃다발'">
+                CATEGORY = #{category} AND FLOWER_IDX = #{idx}
+            </if>
+            <if test="category == '소품'">
+                CATEGORY = #{category} AND PRODUCT_IDX = #{idx}
+            </if>
+            <if test="category == '정기구독'">
+                CATEGORY = #{category} AND SUBS_IDX = #{idx}
+            </if>
+        </where>
+        ORDER BY REG_DATE DESC
+     <!--   SELECT *
+        FROM (
+        SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
+        FROM REVIEW I
+        <where>
+        <if test="category == '클래스'">
+            CATEGORY = #{category} AND FCLASS_IDX = #{idx}
+        </if>
+        <if test="category == '꽃다발'">
+            CATEGORY = #{category} AND FLOWER_IDX = #{idx}
+        </if>
+        <if test="category == '소품'">
+            CATEGORY = #{category} AND PRODUCT_IDX = #{idx}
+        </if>
+        <if test="category == '정기구독'">
+            CATEGORY = #{category} AND SUBS_IDX = #{idx}
+        </if>
+        </where>
+        )
+        WHERE RN BETWEEN 1 and 10-->
+    </select>
+    <select id="cateBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="string">
+        SELECT *
+        FROM (
+                 SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
+                 FROM REVIEW I
+        <if test="category != null">
+            WHERE CATEGORY = #{category}
+        </if>
+             )
+        WHERE
+        RN BETWEEN 1 and 10
+    </select>
+    <select id="cateAllReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="string">
+        SELECT *
+        FROM REVIEW
+        <where>
+            <if test="category != null">
+                CATEGORY = #{category}
+            </if>
+        </where>
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <select id="oldListCnt" resultType="int">
+        SELECT COUNT(IDX)
+        FROM REVIEW
+    </select>
+    <select id="oldCateListCnt" resultType="int" parameterType="string">
+        SELECT COUNT (IDX)
+        FROM REVIEW
+        <where>
+            <if test="category != null">
+                CATEGORY = #{category}
+            </if>
+        </where>
+    </select>
+
+    <select id="allCateReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="map">
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() over (ORDER BY REG_DATE DESC) as RN, I.*
+        FROM REVIEW I
+        <where>
+            <if test="category != null">
+                CATEGORY = #{category}
+            </if>
+        </where>
+        )
+        WHERE RN BETWEEN #{startIndex} and #{endIndex}
+    </select>
+
+    <select id="searchReview" parameterType="string" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT *
+        FROM (
+        SELECT ROW_NUMBER() over (ORDER BY REG_DATE DESC) as RN, I.*
+        FROM REVIEW I
+            WHERE (CATEGORY LIKE '%' || #{search} || '%') OR
+                (NAME LIKE '%' || #{search} || '%') OR
+                (NAME LIKE '%' || #{search} || '%') OR
+                (MEMBER_ID LIKE '%' || #{search} || '%') OR
+                (CONTENT LIKE '%' || #{search} || '%')
+        )
+    </select>
+
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM REVIEW WHERE IDX = #{idx}
+    </delete>
+
+    <select id="likeCount" parameterType="int" resultType="int">
+        SELECT LIKE_COUNT FROM REVIEW WHERE IDX = #{reviewIdx}
+    </select>
+
+    <update id="likeUpdate" parameterType="map">
+        UPDATE REVIEW SET LIKE_COUNT = #{review}
+        WHERE IDX = #{reviewIdx}
+    </update>
+
+    <update id="addIdx" parameterType="int">
+        UPDATE REVIEW SET addFloIdx = #{fIdx}
+        WHERE IDX = #{reviewIdx}
+    </update>
+
+    <insert id="addFloIdx" parameterType="com.flo.alwaysbom.community.review.vo.ReviewVo">
+        INSERT INTO REVIEW (IDX, CATEGORY, FLOWER_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category},#{flowerIdx}, #{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <insert id="addSubIdx" parameterType="com.flo.alwaysbom.community.review.vo.ReviewVo" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO REVIEW (IDX, CATEGORY, SUBS_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category}, #{subsIdx},#{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <insert id="addProIdx" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        INSERT INTO REVIEW (IDX, CATEGORY, PRODUCT_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category}, #{productIdx},#{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <insert id="addclsIdx" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        INSERT INTO REVIEW (IDX, CATEGORY, FCLASS_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category}, #{fclassIdx},#{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <update id="reviewCheck" parameterType="map">
+        UPDATE OITEM
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{reviewIdx}
+        WHERE IDX = #{idx}
+    </update>
+    <update id="memberPoint" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        UPDATE MEMBER
+        <if test="image != null">
+            SET POINT = POINT+200
+        </if>
+        <if test="image == null">
+            SET POINT = POINT+300
+        </if>
+        WHERE ID = #{memberId}
+    </update>
+    <update id="updateReview" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        UPDATE REVIEW
+        SET NAME = #{name}, IMAGE = #{image}, CONTENT = #{content}
+        WHERE IDX = #{idx}
+    </update>
+
+    <select id="findByIdx" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="int">
+        SELECT * FROM REVIEW WHERE IDX = #{reviewIdx}
+    </select>
+
+    <update id="oitemPick" parameterType="int">
+        UPDATE OITEM
+           SET REVIEW_CHECK = 0
+        WHERE REVIEW_IDX = #{idx}
+    </update>
+    <update id="oclassPick" parameterType="int">
+        UPDATE OCLASS
+        SET REVIEW_CHECK = 0, REVIEW_IDX = NULL
+        WHERE REVIEW_IDX = #{idx}
+    </update>
+
+    <update id="imageHas" parameterType="string">
+        UPDATE MEMBER
+        SET POINT = POINT-300
+        WHERE ID = #{getMemberId}
+    </update>
+    <update id="imageDontHas" parameterType="string">
+        UPDATE MEMBER
+        SET POINT = POINT-200
+        WHERE ID = #{getMemberId}
+    </update>
+
+    <!--fclass 리뷰-->
+    <select id="findFclass" parameterType="map" resultType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        SELECT * FROM OCLASS
+        WHERE MEMBER_ID = #{id} AND REVIEW_CHECK = #{check}
+    </select>
+
+    <update id="classCheck" parameterType="int">
+        UPDATE OCLASS
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{reviewIdx}
+        WHERE IDX = #{idx}
+    </update>
+<!--    <select id="utilReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="map">-->
+<!--        SELECT *-->
+<!--        FROM REVIEW-->
+<!--        <where>-->
+<!--            <if test="category != null">-->
+<!--                CATEGORY = #{category}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY REG_DATE DESC-->
+<!--    </select>-->
+<!--    <insert id="addHome" parameterType="com.chicken.kyochon.vo.HomeVo">
+        INSERT INTO HOME(name, age, filename)
+        VALUES (#{name}, #{age}, #{filename})
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT HOME_ID_SEQ.currval from dual
+        </selectKey>
+    </insert>
+
+    <select id="list" resultType="com.chicken.kyochon.vo.HomeVo">
+        SELECT * FROM HOME ORDER BY ID DESC
+    </select>-->
+</mapper>

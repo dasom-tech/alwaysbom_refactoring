@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="branch">
+    <insert id="addBranch" parameterType="com.flo.alwaysbom.fclass.vo.BranchVo">
+        INSERT INTO BRANCH
+        VALUES (NULL, #{name}, #{color}, #{addr}, #{mapImage})
+        <selectKey keyProperty="idx" order="AFTER" resultType="int">
+            SELECT BRANCH_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="updateBranch" parameterType="com.flo.alwaysbom.fclass.vo.BranchVo">
+        UPDATE BRANCH
+        SET NAME = #{name}, COLOR = #{color}, ADDR = #{addr}, MAP_IMAGE = #{mapImage}
+        WHERE IDX = #{idx}
+    </update>
+
+    <delete id="deleteBranch" parameterType="int">
+        DELETE FROM BRANCH WHERE IDX = #{idx}
+    </delete>
+
+    <select id="findByIdx" parameterType="int" resultType="com.flo.alwaysbom.fclass.vo.BranchVo">
+        SELECT * FROM BRANCH
+        WHERE IDX = #{idx}
+        ORDER BY IDX
+    </select>
+
+    <select id="findAll" resultType="com.flo.alwaysbom.fclass.vo.BranchVo">
+        SELECT * FROM BRANCH
+        ORDER BY NAME
+    </select>
+</mapper>

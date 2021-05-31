@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orders-mapper">
+
+    <select id="findDelivery" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="com.flo.alwaysbom.order.vo.DeliveryInfoVo">
+        SELECT RECEIVER_NAME, RECEIVER_PHONE, RECEIVER_ZIPCODE, RECEIVER_ADDR_BASE,
+               RECEIVER_ADDR_DETAIL, RECEIVER_ADDR_EXTRA
+        FROM DELIVERY_INFO
+        WHERE MEMBER_ID = #{id}
+    </select>
+
+    <select id="getPoint" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="int">
+        SELECT POINT FROM MEMBER WHERE ID = #{id}
+    </select>
+
+
+    <insert id="insertOrder" parameterType="com.flo.alwaysbom.order.vo.OrdersVo">
+        INSERT INTO ORDERS
+        VALUES(NULL, #{memberId}, SYSDATE, #{receiverName}, #{receiverPhone}, #{receiverZipcode}, #{receiverAddrBase},
+                    #{receiverAddrDetail}, #{receiverAddrExtra}, #{senderName}, #{payType}, #{payTotal}, #{payDelivery},
+                    SYSDATE, #{discountGrade}, #{discountPoint}, #{status})
+        <selectKey keyProperty="idx" order="AFTER" resultType="int">
+            SELECT ORDERS_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertOitem" parameterType="com.flo.alwaysbom.order.vo.OitemVo">
+        INSERT INTO OITEM VALUES(NULL, #{ordersIdx}, #{letterContent}, #{name}, #{price},
+                                 #{options}, #{image}, #{requestDate},
+                                 #{deliveryStartDate}, #{category}, #{reviewCheck}, #{quantity}, #{fsize}, #{reviewIdx}, #{itemIdx})
+        <selectKey keyProperty="idx" order="AFTER" resultType="int">
+            select OITEM_SEQ.currval from dual
+        </selectKey>
+    </insert>
+
+    <insert id="saveDelivery" parameterType="com.flo.alwaysbom.order.vo.OrdersVo">
+        INSERT INTO DELIVERY_INFO
+        VALUES(NULL, #{memberId}, #{receiverName}, #{receiverPhone}, #{receiverZipcode},
+                    #{receiverAddrBase}, #{receiverAddrDetail}, #{receiverAddrExtra})
+
+    </insert>
+
+<!-- using resultMap -->
+<!--    id : 'join' 하는 POJO 클래스의 CamelCase명 또는 @Alias("키값") -->
+<!--    column :  DB컬럼명 -->
+<!--    property : type에 적힌 POJO클래스의 속성명-->
+    <resultMap id="OrdersMap" type="com.flo.alwaysbom.order.vo.OrdersVo" autoMapping="true">
+        <id property="idx" column="IDX"/>
+        <collection property="olist" column="IDX" ofType="com.flo.alwaysbom.order.vo.OitemVo" select="findByOrderIdx"/>
+    </resultMap>
+    <select id="findByMember" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultMap="OrdersMap">
+        SELECT * FROM ORDERS
+        WHERE ORDERS.MEMBER_ID = #{id}
+        ORDER BY ORDERS.IDX DESC
+    </select>
+    <select id="findBySubs" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultMap="OrdersMap">
+        SELECT *
+        FROM ORDERS
+        WHERE IDX IN
+              (
+                  SELECT DISTINCT ORDERS.IDX
+                  FROM ORDERS
+                           INNER JOIN OITEM ON OITEM.ORDERS_IDX = ORDERS.IDX
+                  WHERE OITEM.CATEGORY = '정기구독'
+                    AND orders.member_id = #{id}
+              )
+        ORDER BY IDX DESC
+    </select>
+    <select id="findByFlower" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultMap="OrdersMap">
+        SELECT *
+        FROM ORDERS
+        WHERE IDX IN
+              (
+                  SELECT DISTINCT ORDERS.IDX
+                  FROM ORDERS
+                           INNER JOIN OITEM ON OITEM.ORDERS_IDX = ORDERS.IDX
+                  WHERE OITEM.CATEGORY IN ('꽃다발', '소품샵')
+                    AND orders.member_id = #{id}
+              )
+        ORDER BY IDX DESC
+    </select>
+
+    <select id="findId" parameterType="String" resultMap="OrdersMap">
+        SELECT * FROM ORDERS
+        WHERE ORDERS.MEMBER_ID = #{id} AND ORDERS.STATUS = '배송완료'
+        ORDER BY ORDERS.IDX DESC
+    </select>
+
+    <select id="findByOrderIdx" parameterType="int" resultType="com.flo.alwaysbom.order.vo.OitemVo">
+        SELECT
+            *
+        FROM OITEM
+        WHERE ORDERS_IDX = #{idx}
+    </select>
+
+<!--    <select id="findByMember" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="com.flo.alwaysbom.order.vo.OrdersVo">-->
+<!--        SELECT * FROM ORDERS-->
+<!--                 INNER JOIN OITEM ON(OITEM.ORDERS_IDX = ORDERS.IDX)-->
+<!--        WHERE ORDERS.MEMBER_ID = #{id}-->
+<!--        ORDER BY ORDERS.IDX DESC-->
+<!--    </select>-->
+    <select id="findBySearchOption" parameterType="com.flo.alwaysbom.order.vo.OrdersSearchOptionDto" resultMap="OrdersMap">
+        SELECT * FROM ORDERS
+        <where>
+            <if test="memberId != null">
+                MEMBER_ID = #{memberId}
+            </if>
+            <if test="status != null">
+                AND STATUS = #{status}
+            </if>
+        </where>
+        ORDER BY IDX DESC
+    </select>
+
+    <select id="findStatusCount" resultType="com.flo.alwaysbom.order.vo.OrdersStatusCount">
+        select SUM(DECODE(STATUS, '입금대기', 1, 0)) as wait,
+               SUM(DECODE(STATUS, '주문취소', 1, 0)) as cancel,
+               SUM(DECODE(STATUS, '취소완료', 1, 0)) as cancelComplete,
+               SUM(DECODE(STATUS, '결제완료', 1, 0)) as orderComplete,
+               SUM(DECODE(STATUS, '배송중', 1, 0)) as delivery,
+               SUM(DECODE(STATUS, '배송완료', 1, 0)) as deliveryComplete
+        from ORDERS
+    </select>
+
+    <update id="updateStatus" parameterType="com.flo.alwaysbom.order.vo.OrdersVo">
+        UPDATE ORDERS
+        SET STATUS = #{status}
+        WHERE IDX = #{idx}
+    </update>
+
+    <update id="updatePoint" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+        UPDATE MEMBER
+        SET POINT = #{point}
+        WHERE ID = #{id}
+    </update>
+
+ 
+
+</mapper>

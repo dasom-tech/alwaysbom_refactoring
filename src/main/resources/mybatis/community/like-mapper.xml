@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewLike">
+    <select id="allLikeList" resultType="com.flo.alwaysbom.community.review.vo.ReviewLikeVo">
+        SELECT * FROM REVIEW_LIKE
+    </select>
+
+    <select id="likeSearch" resultType="com.flo.alwaysbom.community.review.vo.ReviewLikeVo" parameterType="map">
+        SELECT * FROM REVIEW_LIKE
+        WHERE REVIEW_IDX = #{reviewIdx} AND MEMBER_ID = #{memberId}
+    </select>
+
+    <insert id="likeinsert" parameterType="map">
+        INSERT INTO REVIEW_LIKE (REVIEW_IDX, MEMBER_ID)
+        VALUES (#{reviewIdx}, #{memberId})
+    </insert>
+
+    <delete id="likedelete" parameterType="map">
+        DELETE FROM REVIEW_LIKE WHERE REVIEW_IDX = #{reviewIdx} AND MEMBER_ID = #{memberId}
+    </delete>
+
+    <select id="hasReview" parameterType="com.flo.alwaysbom.community.review.vo.ReviewLikeVo" resultType="int">
+        SELECT COUNT(IDX) FROM REVIEW_LIKE where review_idx = #{reviewIdx} and MEMBER_ID = #{memberId}
+    </select>
+</mapper>

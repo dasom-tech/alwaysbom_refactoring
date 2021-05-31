@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FLOWER">
+
+    <!-- (C) 관리자가 상품 등록 -->
+    <insert id="addFlower" parameterType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        INSERT INTO FLOWER  (IDX, NAME, SUBHEADER, FSIZE, PRICE, DISCOUNT_RATE,
+                            IMAGE1, IMAGE2, IMAGE3, CONTENT, FREE_DELIVERY)
+        VALUES      (NULL, #{name}, #{subheader}, #{fsize}, #{price}, #{discountRate},
+                    #{image1}, #{image2}, #{image3}, #{content}, #{freeDelivery})
+        <selectKey keyProperty="idx" order="AFTER" resultType="int">
+            SELECT  FLOWER_SEQ.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+
+    <!-- (R) 상품 전체 조회 (최신 등록순) -->
+    <select id="findAll" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT      *
+        FROM        FLOWER
+        WHERE       DEL_STATUS IS NULL
+        ORDER BY    IDX DESC
+    </select>
+
+
+    <!-- (R) 상품 인덱스로 상세페이지 조회 -->
+    <select id="findByIdx" parameterType="Integer" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT  *
+        FROM    FLOWER
+        WHERE   DEL_STATUS IS NULL AND IDX = #{idx}
+    </select>
+
+
+    <!-- (R) 최근 업로드된 4개의 상품 조회 -->
+    <select id="findRecent4" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT  ROWNUM, F.*
+        FROM    (
+                SELECT *
+                FROM FLOWER
+                WHERE DEL_STATUS IS NULL
+                ORDER BY IDX DESC
+                ) F
+        <![CDATA[
+        WHERE   ROWNUM < 5
+        ]]>
+    </select>
+
+
+    <!-- (R) 꽃다발 베스트 리뷰 찾기 -->
+    <select id="findBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  RN, FF.*
+        FROM    (
+                SELECT  ROWNUM RN, F.*
+                FROM    (
+                        SELECT   *
+                        FROM     REVIEW
+                        WHERE    CATEGORY = '꽃다발'
+                        ORDER BY LIKE_COUNT DESC
+                        ) F
+                ) FF
+        WHERE   RN BETWEEN 1 AND 10
+    </select>
+
+
+    <!-- (R) 해당 상품 인덱스의 리뷰 찾기 -->
+    <select id="findReviewByIdx" parameterType="Integer" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  *
+        FROM    REVIEW
+        WHERE   CATEGORY = '꽃다발' AND FLOWER_IDX = #{idx}
+        ORDER BY REG_DATE DESC
+    </select>
+
+
+    <!-- (R) 현재 로그인한 유저가 해당 상품의 리뷰를 쓸 수 있는지 확인하는 쿼리 -->
+    <select id="findAvailableOitemToReview" parameterType="map" resultType="com.flo.alwaysbom.order.vo.OitemVo">
+        SELECT REV.*
+        FROM
+            (
+                SELECT OITEM.*
+                FROM OITEM
+                         LEFT JOIN ORDERS
+                                   ON ORDERS_IDX = ORDERS.IDX
+                WHERE REVIEW_IDX IS NULL
+                  AND CATEGORY = '꽃다발'
+                  AND ORDERS_IDX IN
+                      (
+                          SELECT IDX
+                          FROM ORDERS
+                          WHERE MEMBER_ID = #{memberId} AND STATUS = '배송완료'
+                      )
+            ) REV
+                LEFT JOIN FLOWER F
+                          ON REV.NAME = F.NAME
+        WHERE F.IDX = #{flowerIdx}
+    </select>
+
+
+    <!-- (U) 관리자가 상품 수정 -->
+    <update id="updateFlower" parameterType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        UPDATE  FLOWER
+        SET     NAME = #{name},
+                SUBHEADER = #{subheader},
+                PRICE = #{price},
+                FSIZE = #{fsize},
+                DISCOUNT_RATE = #{discountRate},
+                IMAGE1 = #{image1},
+                IMAGE2 = #{image2},
+                IMAGE3 = #{image3},
+                CONTENT = #{content},
+                FREE_DELIVERY = #{freeDelivery}
+        WHERE   IDX = #{idx}
+    </update>
+
+
+    <!-- (D) 관리자가 상품 삭제 -->
+    <update id="deleteFlower" parameterType="Integer">
+        UPDATE  FLOWER
+        SET     DEL_STATUS = 1
+        WHERE   IDX = #{idx}
+    </update>
+
+
+    <!-- 이름으로 찾기 -->
+    <select id="findByName" parameterType="string" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT *
+        FROM FLOWER
+        WHERE NAME = #{name}
+    </select>
+
+</mapper>

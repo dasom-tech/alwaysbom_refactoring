@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BANNER">
+
+    <!-- (C) 관리자가 상품 등록 -->
+    <insert id="addBanner" parameterType="com.flo.alwaysbom.banner.vo.BannerVo">
+        INSERT INTO BANNER (CATEGORY, IMAGE, TITLE, CONTENT)
+        VALUES      (#{category}, #{image}, #{title}, #{content})
+    </insert>
+
+
+    <!-- (R) 상품 카테고리로 조회 -->
+    <select id="findByCategory" parameterType="String" resultType="com.flo.alwaysbom.banner.vo.BannerVo">
+        SELECT  *
+        FROM    BANNER
+        WHERE   CATEGORY = #{category}
+    </select>
+
+
+    <!-- (U) 관리자가 상품 수정 -->
+    <update id="updateBanner" parameterType="com.flo.alwaysbom.banner.vo.BannerVo">
+        UPDATE  BANNER
+        SET     IMAGE = #{image},
+                TITLE = #{title},
+                CONTENT = #{content}
+        WHERE   CATEGORY = #{category}
+    </update>
+
+
+    <!-- (D) 관리자가 상품 삭제 -->
+    <delete id="deleteBanner" parameterType="String">
+        DELETE FROM BANNER
+        WHERE       CATEGORY = #{category}
+    </delete>
+
+</mapper>

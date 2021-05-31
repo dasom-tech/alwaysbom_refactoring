@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="statistics">
+
+    <select id="findSubsByMonth" resultType="com.flo.alwaysbom.statistics.vo.SubsByMonthVo">
+        <![CDATA[
+        select NVL(X.cnt, 0) as value, D.mt as label
+        from (
+                 select TO_CHAR(SYSDATE - (interval '1' month) * (level - 1), 'YY/MM') as mt
+                 from dual
+                 connect by level <= 6
+             ) D
+                 LEFT JOIN
+             (
+                 select count(I.idx) cnt, to_char(O.odate, 'YY/MM') as odate
+                 from oitem I
+                          inner join orders O on I.orders_idx = O.idx
+                 where O.odate between TO_DATE(TO_CHAR(SYSDATE - (interval '5' month), 'YY/MM'), 'YY/MM') and SYSDATE
+                   and I.category = '정기구독'
+                 group by to_CHAR(O.odate, 'YY/MM')
+             ) X
+             ON D.mt = X.odate
+        order by D.mt
+        ]]>
+    </select>
+
+    <select id="findSubsBySize" resultType="com.flo.alwaysbom.statistics.vo.SubsByMonthVo">
+        <![CDATA[
+        select fsize as label, count(idx) as value
+        from oitem
+        where category = '정기구독'
+        group by fsize
+        order by decode(fsize, 'S', 1, 'M', 2, 'L', 3, 'XL', 4)
+        ]]>
+    </select>
+
+    <select id="findStatisticsTable" resultType="com.flo.alwaysbom.statistics.vo.StatisticsVo">
+        SELECT DUMMY.MT               AS PERIOD,
+               NVL(SALES_COUNT, 0)    AS SALES_COUNT,
+               NVL(SUBS_AMOUNT, 0)    AS SUBS_AMOUNT,
+               NVL(FLOWER_AMOUNT, 0)  AS FLOWER_AMOUNT,
+               NVL(PRODUCT_AMOUNT, 0) AS PRODUCT_AMOUNT,
+               NVL(CLASS_AMOUNT, 0)   AS CLASS_AMOUNT,
+               NVL(TOTAL_AMOUNT, 0)   AS TOTAL_AMOUNT
+        FROM (SELECT NVL(P.PERIOD, F.PERIOD)                                                                     AS PERIOD,
+                     NVL(P.SALES_COUNT, 0) + NVL(F.SALES_COUNT, 0)                                               AS SALES_COUNT,
+                     NVL(P.SUBS_AMOUNT, 0)                                                                       AS SUBS_AMOUNT,
+                     NVL(P.FLOWER_AMOUNT, 0)                                                                     AS FLOWER_AMOUNT,
+                     NVL(P.PRODUCT_AMOUNT, 0)                                                                    AS PRODUCT_AMOUNT,
+                     NVL(F.CLASS_AMOUNT, 0)                                                                      AS CLASS_AMOUNT,
+                     NVL(SUBS_AMOUNT, 0) + NVL(FLOWER_AMOUNT, 0) + NVL(PRODUCT_AMOUNT, 0) +
+                     NVL(CLASS_AMOUNT, 0)                                                                        AS TOTAL_AMOUNT
+              FROM (SELECT TO_CHAR(O.ODATE, 'YY/MM')                   AS PERIOD,
+                           COUNT(I.IDX)                                AS SALES_COUNT,
+                           SUM(DECODE(I.CATEGORY, '정기구독', I.PRICE, 0)) AS SUBS_AMOUNT,
+                           SUM(DECODE(I.CATEGORY, '꽃다발', I.PRICE, 0))  AS FLOWER_AMOUNT,
+                           SUM(DECODE(I.CATEGORY, '소품샵', I.PRICE, 0))  AS PRODUCT_AMOUNT
+                    FROM OITEM I
+                             INNER JOIN ORDERS O ON I.ORDERS_IDX = O.IDX
+                    WHERE O.ODATE BETWEEN TO_DATE(TO_CHAR(SYSDATE - (INTERVAL '5' MONTH), 'YY/MM'), 'YY/MM') AND SYSDATE
+                    GROUP BY TO_CHAR(O.ODATE, 'YY/MM')) P
+                       FULL OUTER JOIN
+                   (SELECT TO_CHAR(ORDER_DATE, 'YY/MM') AS PERIOD,
+                           COUNT(IDX)                   AS SALES_COUNT,
+                           SUM(DISCOUNT_TOTAL_PRICE)    AS CLASS_AMOUNT
+                    FROM OCLASS
+                    GROUP BY TO_CHAR(ORDER_DATE, 'YY/MM')
+                    ORDER BY TO_CHAR(ORDER_DATE, 'YY/MM')) F
+                   ON P.PERIOD = F.PERIOD) D
+                 RIGHT JOIN
+             (SELECT TO_CHAR(SYSDATE - (INTERVAL '1' MONTH) * (LEVEL - 1), 'YY/MM') AS MT
+              FROM DUAL
+              CONNECT BY LEVEL &lt;= 6) DUMMY
+             ON D.PERIOD = DUMMY.MT
+        ORDER BY DUMMY.MT
+    </select>
+
+    <select id="findStatisticsThisMonth" resultType="com.flo.alwaysbom.statistics.vo.StatisticsVo">
+        SELECT DUMMY.MT               AS PERIOD,
+               NVL(SALES_COUNT, 0)    AS SALES_COUNT,
+               NVL(SUBS_AMOUNT, 0)    AS SUBS_AMOUNT,
+               NVL(FLOWER_AMOUNT, 0)  AS FLOWER_AMOUNT,
+               NVL(PRODUCT_AMOUNT, 0) AS PRODUCT_AMOUNT,
+               NVL(CLASS_AMOUNT, 0)   AS CLASS_AMOUNT,
+               NVL(TOTAL_AMOUNT, 0)   AS TOTAL_AMOUNT
+        FROM (SELECT NVL(P.PERIOD, F.PERIOD)                       AS PERIOD,
+                     NVL(P.SALES_COUNT, 0) + NVL(F.SALES_COUNT, 0) AS SALES_COUNT,
+                     NVL(P.SUBS_AMOUNT, 0)                         AS SUBS_AMOUNT,
+                     NVL(P.FLOWER_AMOUNT, 0)                       AS FLOWER_AMOUNT,
+                     NVL(P.PRODUCT_AMOUNT, 0)                      AS PRODUCT_AMOUNT,
+                     NVL(F.CLASS_AMOUNT, 0)                        AS CLASS_AMOUNT,
+                     NVL(SUBS_AMOUNT, 0) + NVL(FLOWER_AMOUNT, 0) + NVL(PRODUCT_AMOUNT, 0) +
+                     NVL(CLASS_AMOUNT, 0)                          AS TOTAL_AMOUNT
+              FROM (SELECT TO_CHAR(O.ODATE, 'YY/MM/DD')                AS PERIOD,
+                           COUNT(I.IDX)                                AS SALES_COUNT,
+                           SUM(DECODE(I.CATEGORY, '정기구독', I.PRICE, 0)) AS SUBS_AMOUNT,
+                           SUM(DECODE(I.CATEGORY, '꽃다발', I.PRICE, 0))  AS FLOWER_AMOUNT,
+                           SUM(DECODE(I.CATEGORY, '소품샵', I.PRICE, 0))  AS PRODUCT_AMOUNT
+                    FROM OITEM I
+                             INNER JOIN ORDERS O ON I.ORDERS_IDX = O.IDX
+                    WHERE O.ODATE BETWEEN TO_DATE(TO_CHAR(SYSDATE, 'YY/MM'), 'YY/MM') AND SYSDATE
+                    GROUP BY TO_CHAR(O.ODATE, 'YY/MM/DD')
+                   ) P
+                       FULL OUTER JOIN
+                   (SELECT TO_CHAR(ORDER_DATE, 'YY/MM/DD') AS PERIOD,
+                           COUNT(IDX)                      AS SALES_COUNT,
+                           SUM(DISCOUNT_TOTAL_PRICE)       AS CLASS_AMOUNT
+                    FROM OCLASS
+                    GROUP BY TO_CHAR(ORDER_DATE, 'YY/MM/DD')
+                    ORDER BY TO_CHAR(ORDER_DATE, 'YY/MM/DD')) F
+                   ON P.PERIOD = F.PERIOD) D
+                 RIGHT JOIN
+             (SELECT TO_CHAR(SYSDATE - (INTERVAL '1' DAY) * (LEVEL - 1), 'YY/MM/DD') AS MT
+              FROM DUAL
+              CONNECT BY LEVEL &lt;= TO_CHAR(SYSDATE, 'DD')) DUMMY
+             ON D.PERIOD = DUMMY.MT
+        ORDER BY DUMMY.MT
+    </select>
+</mapper>

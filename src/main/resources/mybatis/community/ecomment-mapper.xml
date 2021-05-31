@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ecomment">
+    <select id="ecoList" resultType="com.flo.alwaysbom.community.event.vo.EcommentVo" parameterType="int">
+        SELECT * FROM ECOMMENT
+        WHERE EVENT_IDX = #{idx}
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <insert id="addEcomment" parameterType="com.flo.alwaysbom.community.event.vo.EcommentVo">
+        INSERT INTO ECOMMENT (MEMBER_ID, CONTENT, REG_DATE, REPORT, EVENT_IDX)
+        VALUES (#{memberId}, #{content}, SYSDATE, '0', #{eventIdx})
+    </insert>
+
+    <select id="findByIdx" parameterType="com.flo.alwaysbom.community.event.vo.EcommentVo" resultType="com.flo.alwaysbom.community.event.vo.EcommentVo">
+        SELECT * FROM ECOMMENT
+        WHERE IDX = #{idx}
+    </select>
+
+    <update id="ecommentUpdate" parameterType="com.flo.alwaysbom.community.event.vo.EcommentVo">
+        UPDATE ECOMMENT SET CONTENT = #{content}
+        WHERE IDX = #{idx}
+    </update>
+
+    <delete id="ecommentDelete" parameterType="int">
+        DELETE FROM ECOMMENT WHERE IDX = #{idx}
+    </delete>
+
+    <update id="ecommentReport" parameterType="com.flo.alwaysbom.community.event.vo.EcommentVo">
+        UPDATE ECOMMENT SET REPORT = REPORT+1
+        WHERE IDX = #{idx}
+    </update>
+
+</mapper>

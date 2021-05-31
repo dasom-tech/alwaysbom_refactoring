@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oclass">
+    <insert id="addOclass" parameterType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        INSERT INTO OCLASS
+        VALUES (NULL, #{memberId}, #{regCount}, #{payType},
+                #{payTotal},
+                <if test="payType.equals('무통장입금')">NULL</if>
+                <if test="!payType.equals('무통장입금')">SYSDATE</if>
+                , #{discountGrade}, #{discountPoint},
+        #{fclassName}, #{branchName}, #{branchAddr}, #{fclassImage}, #{scheduleDate},
+        #{scheduleStartTime}, #{scheduleEndTime}, #{fclassCount}, #{status}, #{reviewCheck},
+        #{discountTotalPrice}, #{fclassIdx}, #{scheduleIdx}, SYSDATE, #{reviewIdx})
+    <selectKey keyProperty="idx" resultType="int" order="AFTER">
+        SELECT OCLASS_SEQ.currval FROM DUAL
+    </selectKey>
+    </insert>
+
+    <select id="findBySearchOption" parameterType="com.flo.alwaysbom.fclass.vo.OclassSearchOptionDto"
+            resultType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        SELECT * FROM OCLASS
+        <where>
+            <if test="memberId != null">
+                MEMBER_ID LIKE '%' || #{memberId} || '%'
+            </if>
+            <if test="status != null and !status.equals('전체')">
+                AND STATUS = #{status}
+            </if>
+            <if test="className != null">
+                AND FCLASS_NAME LIKE '%' || #{className} || '%'
+            </if>
+            <if test="branchName != null">
+                AND BRANCH_NAME LIKE '%' || #{branchName} || '%'
+            </if>
+        </where>
+        ORDER BY IDX DESC
+    </select>
+
+    <select id="findAllBranch" resultType="string">
+        SELECT DISTINCT BRANCH_NAME FROM OCLASS
+        ORDER BY BRANCH_NAME
+    </select>
+
+    <update id="updateOrderStatus" parameterType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        UPDATE OCLASS
+        SET STATUS = #{status}
+        WHERE IDX = #{idx}
+    </update>
+
+    <select id="findByIdx" parameterType="int" resultType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        SELECT * FROM OCLASS
+        WHERE IDX = #{idx}
+    </select>
+
+    <delete id="deleteOrder" parameterType="int">
+        DELETE FROM OCLASS
+        WHERE IDX = #{idx}
+    </delete>
+
+    <update id="updateClassImg" parameterType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        UPDATE OCLASS
+        SET FCLASS_IMAGE = #{fclassImage}
+        WHERE FCLASS_IDX = #{fclassIdx}
+    </update>
+
+    <select id="findReviewable" parameterType="com.flo.alwaysbom.fclass.vo.OclassVo" resultType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        SELECT * FROM OCLASS
+        WHERE MEMBER_ID = #{memberId}
+          AND   FCLASS_IDX = #{fclassIdx}
+          AND   STATUS = '결제완료'
+          AND   REVIEW_CHECK = 0
+        ORDER BY SCHEDULE_DATE, ORDER_DATE
+    </select>
+
+    <insert id="addReview" parameterType="com.flo.alwaysbom.fclass.vo.FclassReviewForm">
+        INSERT INTO REVIEW(IDX, CATEGORY, FCLASS_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, STAR)
+        VALUES(null, '클래스', #{fclassIdx}, #{name}, #{memberId}, #{image}, #{content}, #{star})
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="updateReviewCheck" parameterType="com.flo.alwaysbom.fclass.vo.FclassReviewForm">
+        UPDATE OCLASS
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{idx}
+        WHERE IDX = #{oclassIdx}
+    </update>
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE MEMBER
+        SET POINT = POINT + #{point}
+        WHERE ID = #{memberId}
+    </update>
+
+</mapper>

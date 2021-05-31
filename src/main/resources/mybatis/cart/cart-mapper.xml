@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+    <resultMap id="CartVo" type="com.flo.alwaysbom.cart.vo.CartVo" autoMapping="true">
+        <id property="idx" column="IDX"/>
+        <result property="subsIdx" column="SUBS_IDX"/>
+        <result property="flowerIdx" column="FLOWER_IDX"/>
+        <result property="productIdx" column="PRODUCT_IDX"/>
+        <association property="subsVo" column="SUBS_IDX" javaType="com.flo.alwaysbom.subs.vo.SubsVo" select="findSubsByIdx"/>
+        <association property="flowerVo" column="FLOWER_IDX" javaType="com.flo.alwaysbom.flower.vo.FlowerVo" select="findFlowerByIdx"/>
+        <association property="productVo" column="PRODUCT_IDX" javaType="com.flo.alwaysbom.product.vo.ProductVo" select="findProductByIdx"/>
+        <collection property="choices" column="IDX" ofType="com.flo.alwaysbom.choice.vo.ChoiceVo" select="choice.getChoiceById"/>
+    </resultMap>
+
+    <select id="findOptions" parameterType="int" resultType="com.flo.alwaysbom.product.vo.ProductVo">
+        SELECT * FROM PRODUCT P INNER JOIN CHOICE C ON P.IDX = C.PRODUCT_IDX WHERE C.CART_IDX = #{idx}
+    </select>
+
+    <select id="findProductByIdx" parameterType="int" resultType="com.flo.alwaysbom.product.vo.ProductVo">
+        SELECT * FROM PRODUCT WHERE IDX = #{idx}
+    </select>
+
+    <select id="findFlowerByIdx" parameterType="int" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT * FROM FLOWER WHERE IDX = #{idx}
+    </select>
+
+    <select id="findSubsByIdx" parameterType="int" resultType="com.flo.alwaysbom.subs.vo.SubsVo">
+        SELECT * FROM SUBS where IdX = #{idx}
+    </select>
+
+    <insert id="insertCart" parameterType="com.flo.alwaysbom.cart.vo.CartVo">
+        Insert INTO CART(IDX, MEMBER_ID, CATEGORY, SUBS_IDX, FLOWER_IDX, PRODUCT_IDX, QUANTITY, SUBS_MONTH, SUBS_START_DATE, LETTER, REQUEST_DATE)
+        VALUES (null, #{memberId}, #{category}, #{subsIdx}, #{flowerIdx}, #{productIdx}, #{quantity}, #{subsMonth}, #{subsStartDate}, #{letter}, #{requestDate})
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT CART_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+
+    <select id="findByIdxArray" parameterType="arraylist" resultMap="CartVo">
+        SELECT * FROM CART
+        <if test="array neq null">
+            <foreach collection="array" item="idx" open="WHERE IDX IN (" separator="," close=")">
+                #{idx}
+            </foreach>
+        </if>
+        order by CASE WHEN CATEGORY = '정기구독' THEN 9999999999 ELSE IDX END desc
+    </select>
+
+    <select id="findCartsByMember" parameterType="string" resultMap="CartVo">
+        SELECT * FROM CART
+        where MEMBER_ID = #{memberId} and (SUBS_IDX is not null or FLOWER_IDX is not null or PRODUCT_IDX is not null)
+        order by CASE WHEN CATEGORY = '정기구독' THEN 9999999999 ELSE IDX END desc
+    </select>
+
+    <select id="findByIdx" parameterType="int" resultMap="CartVo">
+        SELECT * FROM CART
+        WHERE IDX = #{idx}
+    </select>
+
+    <update id="updateQuantity" parameterType="com.flo.alwaysbom.cart.vo.CartVo">
+        update CART set QUANTITY = #{quantity} where idx = #{idx}
+    </update>
+
+    <delete id="removeByIdx" parameterType="int">
+        DELETE FROM CART WHERE IDX = #{idx}
+    </delete>
+
+    <delete id="removeByIdxes" parameterType="list">
+        delete from CART
+        where idx IN
+        <foreach collection="list" item="idx" open="(" separator="," close=")">
+            #{idx}
+        </foreach>
+    </delete>
+</mapper>

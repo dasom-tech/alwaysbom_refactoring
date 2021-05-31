@@ -1,0 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<link rel="stylesheet" href="/static/bootstrap-5.0.0/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/static/css/header_footer.css">
+<link rel="stylesheet" href="/static/css/common.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+
+<script src="/static/js/jquery-3.6.0"></script>
+<script src="/static/bootstrap-5.0.0/js/bootstrap.bundle.min.js"></script>
+<script src="/static/fontawesome/js/fontawesome.min.js"></script>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SUBS">
+
+    <!-- 관리자가 상품 등록 -->
+    <insert id="addSubs" parameterType="com.flo.alwaysbom.subs.vo.SubsVo">
+        INSERT INTO SUBS
+        VALUES(NULL, #{name}, #{subheader}, #{summary}, #{price}, #{image1},
+               #{image2}, #{image3}, #{content}, #{fsize})
+    <selectKey keyProperty="idx" order="AFTER" resultType="int">
+        SELECT SUBS_SEQ.currval FROM DUAL
+    </selectKey>
+    </insert>
+
+    <!-- 관리자가 상품 수정 -->
+    <update id="updateSubs" parameterType="com.flo.alwaysbom.subs.vo.SubsVo">
+        UPDATE  SUBS
+        SET     NAME = #{name},
+                SUBHEADER = #{subheader},
+                SUMMARY = #{summary},
+                PRICE = #{price},
+                IMAGE1 = #{image1},
+                IMAGE2 = #{image2},
+                IMAGE3 = #{image3},
+                CONTENT = #{content},
+                FSIZE = #{fsize}
+        WHERE   IDX = #{idx}
+    </update>
+
+    <!-- 상품 전체 조회 (최신 등록 순) (정렬 기준 생각하기) -->
+    <select id="findAll" resultType="com.flo.alwaysbom.subs.vo.SubsVo">
+        SELECT * FROM SUBS ORDER BY IDX DESC
+    </select>
+
+    <!-- 상품 인덱스로 상세페이지 조회 -->
+    <select id="findByIdx" parameterType="Integer" resultType="com.flo.alwaysbom.subs.vo.SubsVo">
+        SELECT * FROM SUBS WHERE IDX = #{idx}
+    </select>
+
+    <!-- 관리자가 상품 삭제 -->
+    <update id="deleteSubs" parameterType="Integer">
+        DELETE FROM SUBS
+        WHERE IDX = #{idx}
+    </update>
+
+    <!-- 이름으로 아이디 찾기-->
+    <select id="findByName" parameterType="String" resultType="int">
+        SELECT IDX
+        FROM SUBS
+        WHERE NAME = #{name}
+    </select>
+
+    <!-- (R) 베스트 리뷰 찾기 -->
+    <select id="findBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  RN, SS.*
+        FROM    (
+                    SELECT  ROWNUM RN, S.*
+                    FROM    (
+                                SELECT   *
+                                FROM     REVIEW
+                                WHERE    CATEGORY = '정기구독'
+                                ORDER BY LIKE_COUNT DESC
+                            ) S
+                ) SS
+        WHERE   RN BETWEEN 1 AND 10
+    </select>
+
+    <!-- (R) 해당 상품 인덱스의 리뷰 찾기 -->
+    <select id="findReviewByIdx" parameterType="Integer" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  *
+        FROM    REVIEW
+        WHERE   CATEGORY = '정기구독' AND SUBS_IDX = #{idx}
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <!-- (R) 현재 로그인한 유저가 해당 상품의 리뷰를 쓸 수 있는지 확인하는 쿼리 -->
+    <select id="findAvailableOitemToReview" parameterType="map" resultType="com.flo.alwaysbom.order.vo.OitemVo">
+        SELECT REV.*
+        FROM
+            (
+                SELECT OITEM.*
+                FROM OITEM
+                         LEFT JOIN ORDERS
+                                   ON ORDERS_IDX = ORDERS.IDX
+                WHERE REVIEW_IDX IS NULL
+                  AND CATEGORY = '정기구독'
+                  AND ORDERS_IDX IN
+                      (
+                          SELECT IDX
+                          FROM ORDERS
+                          WHERE MEMBER_ID = #{memberId} AND STATUS = '배송완료'
+                      )
+            ) REV
+                LEFT JOIN SUBS S
+                          ON REV.NAME = S.NAME
+        WHERE S.IDX = #{subsIdx}
+    </select>
+
+</mapper>

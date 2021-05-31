@@ -1,0 +1,82 @@
+/* 서체 */
+body {
+    font-family: "Noto Sans KR", sans-serif !important;
+}
+
+/* 메인 컨테이너 */
+#container {
+    width: 1280px !important;
+    background-color: #ffffff;
+    padding: 0 3em 6em 3em;
+    min-height: 800px;
+}
+
+/* 가로 폭 */
+.w-1280 {
+    width: 1280px;
+}
+.w-806 {
+    width: 806px;
+}
+.w-45 {
+    width: 45%;
+}
+.w-46 {
+    width: 46.5%;
+}
+
+/* 글씨 색 */
+.green-color {
+    color: #7DAF3B;
+}
+.point-color {
+    color: #ffc107;
+}
+.bg-point-color {
+    background-color: #ffc107;
+}
+.c-666 {
+    color: #666666;
+}
+.c-bbb {
+    color: #bbbbbb;
+}
+
+/* 서체 굵기 */
+.fw-500 {
+    font-weight: 500;
+}
+
+/* 서체 크기 */
+.fs-17 {
+    font-size: 17px;
+}
+.fs-19 {
+    font-size: 19px;
+}
+
+/* 마우스 호버 -> 이미지 확대 */
+.scale-up:hover {
+    transform: scale(1.05);
+    transition-duration: 0.6s;
+}
+
+/* border */
+.bb-1 {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+/* margin & padding */
+.mt-100 {
+    margin-top: 100px;
+}
+.ms-13 {
+    margin-left: 13.5em;
+}
+.mb-5em {
+    margin-bottom: 5em;
+}
+.mb-8em {
+    margin-bottom: 8em;
+}
+

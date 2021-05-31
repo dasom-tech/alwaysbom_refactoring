@@ -1,0 +1,97 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+    @media all and (min-width: 992px) {
+        .navbar .nav-item .dropdown-menu{ display: none; }
+        .navbar .nav-item:hover .nav-link{ color: #fff; }
+        .navbar .nav-item:hover .dropdown-menu{ display: block; }
+        .navbar .nav-item:hover .dropdown-menu{ margin-top: 0; }
+    }
+</style>
+<header class="navbar-dark bg-dark w-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mx-auto" style="max-width: 1280px">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/admin/main">관리자 홈</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBar"
+                    aria-controls="navBar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navBar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="member" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            회원 관리
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="member">
+                            <li><a class="dropdown-item" href="/admin/coupon">쿠폰</a></li>
+                            <li><a class="dropdown-item" href="/admin/b_memList">회원목록</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="statistics" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            매출 분석
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="statistics">
+                            <li><a class="dropdown-item" href="/admin/statistics/subs">정기 구독</a></li>
+                            <li><a class="dropdown-item" href="/admin/statistics/sales">매출 통계</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="orders" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            주문 내역
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="orders">
+                            <li><a class="dropdown-item" href="/admin/orders">상품 주문 내역</a></li>
+                            <li><a class="dropdown-item" href="/admin/fclass/orders">클래스 주문 내역</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="items" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            상품 관리
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="items">
+                            <li><a class="dropdown-item" href="/admin/subs">꽃 정기구독</a></li>
+                            <li><a class="dropdown-item" href="/admin/flower">꽃다발</a></li>
+                            <li><a class="dropdown-item" href="/admin/product">소품샵</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="class" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            클래스 관리
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="class">
+                            <li><a class="dropdown-item" href="/admin/fclass/classList">클래스</a></li>
+                            <li><a class="dropdown-item" href="/admin/fclass/branch">지점 관리</a></li>
+                            <li><a class="dropdown-item" href="/admin/fclass/selectClass">일정 관리</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="community" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            커뮤니티
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="community">
+                            <li><a class="dropdown-item" href="/admin/community/eventList">이벤트</a></li>
+                            <li><a class="dropdown-item" href="/adnin/community/goFaq">FAQ</a></li>
+                            <li><a class="dropdown-item" href="/admin/community/question">1:1 문의</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="list-group list-group-horizontal navbar-nav">
+                    <c:if test="${empty admin}">
+                    <li class="list-group-item"><a href="/admin/login">로그인</a></li>
+                    </c:if>
+                    <c:if test="${not empty admin}">
+                    <li class="list-group-item"><a href="/admin/logout">로그아웃</a></li>
+                    </c:if>
+                    <li class="list-group-item"><a href="/">고객화면으로 이동</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

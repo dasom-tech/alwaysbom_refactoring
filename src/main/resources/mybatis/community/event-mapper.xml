@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="event">
+
+    <insert id="addevent" parameterType="com.flo.alwaysbom.community.event.vo.EventVo">
+        INSERT INTO EVENT (THUMB, NAME, IMAGE1, IMAGE2, CONTENT, START_DATE, END_DATE)
+        VALUES (#{thumb}, #{name}, #{image1}, #{image2}, #{content}, #{startDate}, #{endDate})
+    </insert>
+
+    <select id="eventList" resultType="com.flo.alwaysbom.community.event.vo.EventVo">
+        SELECT * FROM EVENT
+
+        WHERE END_DATE <![CDATA[ >= ]]> TO_DATE(SYSDATE, 'YY/MM/DD')
+
+       /* AND END_DATE <![CDATA[ >= ]]> TO_DATE(SYSDATE, 'YY/MM/DD')*/
+    </select>
+
+    <select id="oldeventList" resultType="com.flo.alwaysbom.community.event.vo.EventVo">
+        SELECT * FROM EVENT
+        WHERE END_DATE <![CDATA[ < ]]> TO_DATE(SYSDATE, 'YY/MM/DD')
+
+    </select>
+
+    <select id="eventDetail" parameterType="int" resultType="com.flo.alwaysbom.community.event.vo.EventVo">
+        SELECT * FROM EVENT WHERE IDX = #{idx}
+    </select>
+
+    <delete id="eventDelete" parameterType="int">
+        DELETE FROM EVENT WHERE IDX = #{idx}
+    </delete>
+
+    <update id="eventUpdate" parameterType="com.flo.alwaysbom.community.event.vo.EventVo">
+        UPDATE EVENT SET THUMB = #{thumb}, NAME = #{name}, IMAGE1 = #{image1}, IMAGE2 = #{image2}, CONTENT = #{content}, START_DATE = #{startDate},
+                         END_DATE = #{endDate}
+        WHERE IDX = #{idx}
+    </update>
+</mapper>

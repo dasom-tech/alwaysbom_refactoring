@@ -1,0 +1,99 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="forward" value='${requestScope["javax.servlet.forward.servlet_path"]}'/>
+<c:set var="typePath" value='${forward.substring(0, forward.indexOf("/", 1) > 0 ? forward.indexOf("/", 1) : forward.length())}'/>
+<div class="d-flex justify-content-center">
+    <div class="login-bar">
+        <ul class="d-flex justify-content-end">
+<%--            <li><a href="#" class="text-decoration-none">오늘의 꽃은?</a></li>--%>
+<%--            <li>|</li>--%>
+            <li>
+            <c:choose>
+            <c:when test="${sessionScope.member == null}">
+                <a href="/login">로그인</a>
+            </c:when>
+            <c:otherwise>
+                ${sessionScope.member.name}님 반갑습니다:-)
+                <li>|</li>
+                <a href="/logout">로그아웃</a>
+            </c:otherwise>
+            </c:choose>
+            </li>
+            <c:if test="${sessionScope.member == null}">
+            <li>|</li>
+            <li><a href="/goMemberJoin">회원가입<span class="point-color fw-bold">(1000포인트 지급!)</span></a></li>
+            </c:if>
+        </ul>
+    </div>
+</div>
+<header>
+    <div class="d-flex justify-content-center">
+        <div class="h-menu-bar d-flex justify-content-between align-items-center">
+            <div class="logo d-flex justify-content-center align-items-center" onclick="location.href='/'" style="width: 130px; height: auto;">
+                <img src="/static/image/main/logo.svg" alt="logo" class="w-100">
+            </div>
+            <ul class="h-menu-wrap d-flex justify-content-end my-auto">
+                <li class="h-menu ${typePath eq '/subs' ? 'menu-active' : ''}">
+                    <a href="/subs" id="subs">꽃 정기구독</a>
+                    <div class="under-bar" id="under-bar1"></div>
+                </li>
+                <li class="h-menu ms-3 ${typePath eq '/flower' ? 'menu-active' : ''}">
+                    <a href="/flower" id="flower">꽃다발</a>
+                    <div class="under-bar" id="under-bar2"></div>
+                </li>
+                <li class="h-menu ms-3 ${typePath eq '/fclass' ? 'menu-active' : ''}">
+                    <a href="/fclass/classList" id="fclass">플라워클래스</a>
+                    <div class="under-bar" id="under-bar3"></div>
+                </li>
+                <li class="h-menu ms-3 ${typePath eq '/product' ? 'menu-active' : ''}">
+                    <a href="/product" id="product">소품샵</a>
+                    <div class="under-bar" id="under-bar4"></div>
+                </li>
+                <li class="h-menu ms-3 me-4 ${typePath eq '/community' ? 'menu-active' : ''}">
+                    <a href="#" id="community">커뮤니티</a>
+                    <ul class="h-submenu d-flex flex-column justify-content-center">
+                        <li><a href="/community/event/eventlist">이벤트</a></li>
+                        <li><a href="/community/goReview">리뷰게시판</a></li>
+                        <li><a href="/community/goFaq">FAQ</a></li>
+                        <li class="mb-2"><a href="/myPage_faq_main">1:1문의</a></li>
+                    </ul>
+                    <div class="under-bar" id="under-bar5"></div>
+                </li>
+
+                <li class="h-menu-icon ms-5">
+                    <img src="/static/icons/user.svg" class="h-menu-svg" alt="user" title="마이페이지" onclick="${empty member ? "showLoginModal()" : "location.href='/myPage'"}">
+                </li>
+                <li class="h-menu-icon">
+                    <img src="/static/icons/cart.svg" class="h-menu-svg" alt="cart" title="장바구니" onclick="${empty member ? "showLoginModal()" : "location.href='/cart/list'"}">
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<!-- 로그인 유도 Modal 창 -->
+<div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel2">새늘봄의 회원이신가요?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body fs-19 p-3 mb-5">
+                로그인 이후 이용 가능한 서비스입니다.<br>로그인 화면으로 이동하시려면 '이동'을 눌러주세요.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark fs-19" onclick="location.href='/login'">이동</button>
+                <button type="button" class="btn btn-secondary fs-19" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showLoginModal() {
+        const modal = new bootstrap.Modal(document.querySelector("#loginModal"));
+        modal.show();
+    }
+</script>
+

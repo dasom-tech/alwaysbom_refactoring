@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="question">
+
+    <insert id="addque" parameterType="com.flo.alwaysbom.community.question.vo.QuestionVo">
+        INSERT INTO MYQ (NAME, CONTENT, IMAGE, MEMBER_ID, EMAIL_SEND, QUESTION_DATE)
+        VALUES (#{name}, #{content}, #{image}, #{memberId}, #{emailSend}, SYSDATE)
+    </insert>
+
+    <select id="noAnswer" resultType="com.flo.alwaysbom.community.question.vo.QuestionVo" parameterType="string">
+        SELECT *
+        FROM (
+                 SELECT ROW_NUMBER() over (ORDER BY QUESTION_DATE DESC) as RN, I.*
+                 FROM MYQ I
+                 WHERE ANSWER IS NULL
+             )
+        WHERE RN BETWEEN 1 and 10
+    </select>
+
+    <select id="answer" resultType="com.flo.alwaysbom.community.question.vo.QuestionVo" parameterType="string">
+        SELECT *
+        FROM (
+                 SELECT ROW_NUMBER() over (ORDER BY QUESTION_DATE DESC) as RN, I.*
+                 FROM MYQ I
+                 WHERE ANSWER IS NOT NULL
+             )
+        WHERE RN BETWEEN 1 and 10
+    </select>
+
+    <select id="mailCheck" parameterType="int" resultType="int">
+        SELECT EMAIL_SEND FROM MYQ WHERE IDX = #{idx}
+    </select>
+
+    <update id="updateAnswer" parameterType="com.flo.alwaysbom.community.question.vo.QuestionVo">
+        UPDATE MYQ SET ANSWER_DATE=SYSDATE, ANSWER=#{answer}, ANSWER_TITLE=#{answerTitle}
+        WHERE IDX=#{idx}
+    </update>
+
+    <delete id="deleteAnswer" parameterType="int">
+        DELETE FROM MYQ
+        WHERE IDX=#{idx}
+    </delete>
+</mapper>

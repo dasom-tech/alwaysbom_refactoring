@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ITEM">
+
+    <!-- (C) 리뷰 추가하기 -->
+    <insert id="addReview" parameterType="com.flo.alwaysbom.item.vo.ItemReviewForm">
+        INSERT INTO REVIEW(IDX, CATEGORY, SUBS_IDX, FLOWER_IDX, PRODUCT_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, STAR)
+        VALUES(null, #{category}, #{subsIdx}, #{flowerIdx}, #{productIdx}, #{name}, #{memberId}, #{image},
+               #{content}, #{star})
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <!-- (U) OITEM 테이블의 리뷰 체크, 리뷰 idx 수정 -->
+    <update id="updateReviewCheck" parameterType="com.flo.alwaysbom.item.vo.ItemReviewForm">
+        UPDATE OITEM
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{idx}
+        WHERE IDX = #{oitemIdx}
+    </update>
+
+</mapper>

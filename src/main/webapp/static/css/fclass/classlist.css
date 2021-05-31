@@ -1,0 +1,89 @@
+/* 배너 이미지와 글귀 */
+.banner-wrap {
+    width: 100%;
+    background-color: #efeeeb;
+}
+.w-1280 {
+    width: 1280px;
+}
+.banner-text {
+    padding: 0 3em;
+    /*border: 1px solid blue;*/
+}
+.banner-title {
+    font-size: 30px;
+}
+.banner-summary {
+    font-size: 19px;
+    line-height: 1.5em;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+/*--- 꽃다발 리스트 ---*/
+.banner-img {
+    width: 100vw;
+    height: 300px;
+    background-color: #f598b0;
+}
+.mb-8em {
+    margin-bottom: 8em;
+}
+.scale-up:hover {
+    transform: scale(1.05);
+    transition-duration: 0.5s;
+}
+.img-height {
+    height: 270px;
+}
+.subheader {
+    padding-top: 0.3em;
+    line-height: 2em;
+    font-size: 15px;
+    font-weight: 300;
+    color: #707070;
+}
+.class-name {
+    font-size: 19px;
+    font-weight: 500;
+}
+.class-name a {
+    color: #333333;
+    text-decoration: none;
+}
+.class-name a:hover {
+    color: #333333;
+    text-decoration: underline;
+}
+.price-wrap {
+    padding: 0.4em 0 0.2em 0;
+}
+.discount-rate {
+    padding-right: 0.3em;
+    font-size: 16px;
+    font-weight: 700;
+    color: #5CA865;
+}
+.original-price {
+    font-size: 16px;
+    font-weight: 300;
+    color: #707070;
+    text-decoration: line-through;
+    padding-right: 0.3em;
+}
+.final-price {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+}
+.last-line {
+    margin-top: 0.2em;
+    padding-left: 0.2em;
+}
+.branch-box {
+    border-radius: 12px;
+    width: 60px;
+    text-align: center;
+}

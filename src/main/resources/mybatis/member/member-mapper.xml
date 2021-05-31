@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+    <!-- 회원가입 -->
+    <insert id="insertMember" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+        INSERT INTO MEMBER (ID, PW, NAME, BIRTH, GENDER, PHONE)
+        VALUES (#{id}, #{pw}, #{name}, #{birth}, #{gender}, #{phone})
+    </insert>
+
+    <!-- 로그인 -->
+    <select id="Login" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="com.flo.alwaysbom.member.vo.MemberVO">
+        SELECT *
+        FROM MEMBER
+        WHERE id = #{id}
+          AND pw = #{pw}
+          AND QUIT_STATUS = 0
+    </select>
+
+    <!-- 아이디 중복 확인 -->
+    <select id="idCheck" parameterType="String" resultType="int">
+        SELECT count(id) FROM MEMBER where ID=#{id}
+    </select>
+
+    <!-- 회원 정보 수정 -->
+    <update id="updateMember">
+        UPDATE MEMBER
+        SET NAME = #{name},
+            PW = #{pw},
+            PHONE = #{phone},
+            BIRTH = #{birth}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 회원 탈퇴 -->
+    <delete id="deleteMember">
+        UPDATE MEMBER
+        SET QUIT_STATUS = 1,
+            POINT = 0
+        WHERE ID = #{id}
+            AND PW = #{pw}
+    </delete>
+
+    <!-- 아이디 찾기 -->
+    <select id="found_id" parameterType="String" resultType="String">
+        SELECT ID
+        FROM MEMBER
+        WHERE PHONE = #{phone}
+    </select>
+
+    <!-- 비밀번호 변경 -->
+    <update id="update_pw" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+        UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
+    </update>
+
+    <!-- 쿠폰 사용 -->
+    <update id="raisePoint" parameterType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        UPDATE MEMBER
+        SET POINT = POINT + #{point}
+        WHERE ID = #{memberId}
+    </update>
+    <!-- 1vs1 문의 리스트-->
+    <select id="myQuestion" parameterType="string" resultType="com.flo.alwaysbom.community.question.vo.QuestionVo">
+        SELECT * FROM MYQ
+        WHERE MEMBER_ID = #{id}
+    </select>
+
+    <!--회원 목록-->
+    <select id="b_memList" resultType="com.flo.alwaysbom.member.vo.MemberVO">
+        SELECT id, name, birth, gender, phone, grade, point
+        FROM member
+        WHERE QUIT_STATUS = 0
+        ORDER BY name
+    </select>
+</mapper>

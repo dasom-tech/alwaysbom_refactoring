@@ -1,0 +1,35 @@
+/* 리뷰 카테고리(꽃다발 베스트리뷰/이 상품의 리뷰) */
+#review-area {
+    margin-bottom: 4em;
+}
+.review-category {
+    border-bottom: 1px solid #dbdbdb;
+    margin-top: 2em;
+}
+.btn-rev {
+    font-size: 20px;
+    color: #707070;
+}
+.btn-rev:hover {
+    cursor: pointer;
+}
+input[type=radio]:checked + .btn-rev {
+    border-bottom: 3px solid #030303;
+    color: #030303;
+    font-weight: 500;
+}
+
+
+/* 베스트 리뷰 게시판 */
+.review-row:hover {
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+/* 별점주기 버튼 */
+.btn-radio {
+    cursor: pointer;
+}
+.btn-radio:hover {
+    color: #ffcc3c;
+}
