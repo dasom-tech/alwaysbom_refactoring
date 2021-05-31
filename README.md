@@ -1,2 +1,7 @@
-# alwaysbom_refactoring
-project 'alwaysbom' refactoring version
+# 👍3rd project 'alwaysbom' refactoring
+
+- `목적` : 가독성을 높이고 스프링 시큐리티를 접목시킨 로그인 처리를 구현 해보기 위함
+- `목표` : 담당 파트 리팩토링 완료하기 (진행중)
+1. 클린 코드를 위한 네이밍, 중복 코드 제거, 주석 추가 등
+2. 스프링 시큐리티 접목하여 로그인 처리 변경
+
