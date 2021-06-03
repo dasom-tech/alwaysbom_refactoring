@@ -3,7 +3,7 @@ package com.flo.alwaysbom.community.review.controller;
 import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.community.review.service.ReviewService;
 import com.flo.alwaysbom.community.review.vo.ReviewLikeVo;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OrdersVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class MyPageReviewController {
     private final ReviewService service;
 
 //    @GetMapping("/community/com_mypage_review")
-//    public String goReview(@SessionAttribute(required = false) MemberVO member, Model model){
+//    public String goReview(@SessionAttribute(required = false) memberVo member, Model model){
 //        List<OrdersVo> orderList = service.reviewPossible(member.getId());
 //        System.out.println(orderList);
 //        model.addAttribute("orderList", orderList);

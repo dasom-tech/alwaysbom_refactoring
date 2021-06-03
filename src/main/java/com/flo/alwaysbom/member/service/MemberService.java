@@ -3,8 +3,8 @@ package com.flo.alwaysbom.member.service;
 import com.flo.alwaysbom.community.question.vo.QuestionVo;
 import com.flo.alwaysbom.coupon.dao.CouponDao;
 import com.flo.alwaysbom.coupon.vo.CouponVo;
-import com.flo.alwaysbom.member.dao.MemberDAO;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.dao.MemberDao;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Service;
@@ -19,17 +19,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberDAO dao;
+    private final MemberDao dao;
     private final CouponDao couponDao;
 
     //회원가입
-    public void insertMember(MemberVO memberVO) {
-        dao.insertMember(memberVO);
+    public void insertMember(MemberVo memberVo) {
+        dao.insertMember(memberVo);
     }
 
     //로그인
-    public MemberVO login(MemberVO memberVO) throws Exception {
-        return dao.login(memberVO);
+    public MemberVo login(MemberVo memberVo) throws Exception {
+        return dao.login(memberVo);
     }
 
     //로그아웃
@@ -45,13 +45,13 @@ public class MemberService {
     }
 
     //회원 정보 수정
-    public void updateMember(MemberVO memberVO) throws Exception {
-        dao.updateMember(memberVO);
+    public void updateMember(MemberVo memberVo) throws Exception {
+        dao.updateMember(memberVo);
     }
 
     //회원 탈퇴
-    public void deleteMember(MemberVO memberVO, HttpSession session) throws Exception {
-        dao.deleteMember(memberVO, session);
+    public void deleteMember(MemberVo memberVo, HttpSession session) throws Exception {
+        dao.deleteMember(memberVo, session);
     }
 
     //아이디 찾기
@@ -73,11 +73,11 @@ public class MemberService {
     }
 
     // 비밀번호 찾기
-    public void find_pw(HttpServletResponse response, MemberVO memberVO) throws Exception {
+    public void find_pw(HttpServletResponse response, MemberVo memberVo) throws Exception {
         response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
         // 아이디가 없으면
-        if (dao.idCheck(memberVO.getId()) == 0) {
+        if (dao.idCheck(memberVo.getId()) == 0) {
             out.println("<script>");
             out.print("alert('가입된 ID(이메일)가 아닙니다');");
             out.println("history.go(-1);");
@@ -89,17 +89,17 @@ public class MemberService {
             for (int i = 0; i < 12; i++) {
                 pw += (char) ((Math.random() * 26) + 97);
             }
-            memberVO.setPw(pw);
+            memberVo.setPw(pw);
             // 비밀번호 변경
-            dao.update_pw(memberVO);
+            dao.update_pw(memberVo);
             // 비밀번호 변경 메일 발송
-            send_mail(memberVO, "find_pw");
+            send_mail(memberVo, "find_pw");
 
         }
     }
 
     // 이메일 발송
-    public void send_mail(MemberVO memberVO, String div) throws Exception {
+    public void send_mail(MemberVo memberVo, String div) throws Exception {
         // Mail Server 설정
         String charSet = "utf-8"; //인코딩 설정
         String hostSMTP = "smtp.naver.com";
@@ -116,12 +116,12 @@ public class MemberService {
             subject = "새늘봄에서 고객님의 임시 비밀번호를 보내드립니다:-)";
             msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
             msg += "<h3 style='color: blue;'>";
-            msg += memberVO.getId() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
+            msg += memberVo.getId() + "님의 임시 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
             msg += "<p>임시 비밀번호 : ";
-            msg += memberVO.getPw() + "</p></div>";
+            msg += memberVo.getPw() + "</p></div>";
         }
         // 받는 사람 E-Mail 주소
-        String mail = memberVO.getId();
+        String mail = memberVo.getId();
         try {
             HtmlEmail email = new HtmlEmail();
             email.setDebug(true);
@@ -153,7 +153,7 @@ public class MemberService {
     }
 
     //회원 목록
-    public List<MemberVO> b_memList() {
+    public List<MemberVo> b_memList() {
         return dao.b_memList();
     }
 }

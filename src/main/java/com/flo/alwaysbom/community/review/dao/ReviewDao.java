@@ -3,7 +3,7 @@ package com.flo.alwaysbom.community.review.dao;
 import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.community.review.vo.ReviewLikeVo;
 import com.flo.alwaysbom.fclass.vo.OclassVo;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OitemVo;
 import com.flo.alwaysbom.order.vo.OrdersVo;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +85,7 @@ public class ReviewDao {
         return list;
     }
 
-    public void searchReview(Integer idx, MemberVO member) {
+    public void searchReview(Integer idx, MemberVo member) {
         ReviewDto dto = sqlSessionTemplate.selectOne("review.findByIdx", idx);
         sqlSessionTemplate.delete("review.deleteReview", idx);
         sqlSessionTemplate.update("review.oitemPick", idx);

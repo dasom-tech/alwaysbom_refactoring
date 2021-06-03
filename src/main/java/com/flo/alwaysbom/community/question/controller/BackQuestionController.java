@@ -2,7 +2,7 @@ package com.flo.alwaysbom.community.question.controller;
 
 import com.flo.alwaysbom.community.question.service.QuestionServise;
 import com.flo.alwaysbom.community.question.vo.QuestionVo;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.util.MailSend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -50,7 +50,7 @@ public class BackQuestionController {
     // 1:1문의 관리자 답변
     @PostMapping("/admin/question/api/addAnswer")
     @ResponseBody
-    public boolean addAnswer(@SessionAttribute(required = false) MemberVO member, QuestionVo vo){
+    public boolean addAnswer(@SessionAttribute(required = false) MemberVo member, QuestionVo vo){
 
 
         servise.updateAnswer(vo);

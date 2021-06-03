@@ -109,10 +109,6 @@
 <%@ include file="../main/footer.jspf"%>
 </html>
 <style>
-    .pointBox {
-        padding-top: 50px;
-        padding-bottom: 50px;
-    }
     .left {
         float: left;
         width: 45%;

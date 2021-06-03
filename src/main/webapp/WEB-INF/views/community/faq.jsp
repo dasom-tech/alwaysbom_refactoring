@@ -90,7 +90,7 @@
     <div id="container">
         <div class="py-3">
                 <h2 class="mx-auto d-inline-block col-9">자주 묻는 질문</h2>
-                <a href="/myPage_faq_main" class="mx-auto d-inline-block col-2 btn btn-secondary">1:1 문의하기</a><%--로그인 처리--%>
+                <a href="/mypage_myQnA" class="mx-auto d-inline-block col-2 btn btn-secondary">1:1 문의하기</a><%--로그인 처리--%>
         </div>
         <div>
 

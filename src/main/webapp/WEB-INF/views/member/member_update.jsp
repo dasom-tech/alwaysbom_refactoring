@@ -82,12 +82,10 @@
         background-color: darkgrey;
         color: white;
     }
-
     .gender-area input[type=radio] + .btn-gender:hover {
         background-color: grey;
         color: white;
     }
-
     .gender-area input[type=radio]:checked + .btn-gender,
     .gender-area input[type=radio][checked] + .btn-gender {
         background-color: grey;

@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orders-mapper">
 
-    <select id="findDelivery" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="com.flo.alwaysbom.order.vo.DeliveryInfoVo">
+    <select id="findDelivery" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultType="com.flo.alwaysbom.order.vo.DeliveryInfoVo">
         SELECT RECEIVER_NAME, RECEIVER_PHONE, RECEIVER_ZIPCODE, RECEIVER_ADDR_BASE,
                RECEIVER_ADDR_DETAIL, RECEIVER_ADDR_EXTRA
         FROM DELIVERY_INFO
         WHERE MEMBER_ID = #{id}
     </select>
 
-    <select id="getPoint" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="int">
+    <select id="getPoint" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultType="int">
         SELECT POINT FROM MEMBER WHERE ID = #{id}
     </select>
 
@@ -50,12 +50,12 @@
         <id property="idx" column="IDX"/>
         <collection property="olist" column="IDX" ofType="com.flo.alwaysbom.order.vo.OitemVo" select="findByOrderIdx"/>
     </resultMap>
-    <select id="findByMember" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultMap="OrdersMap">
+    <select id="findByMember" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultMap="OrdersMap">
         SELECT * FROM ORDERS
         WHERE ORDERS.MEMBER_ID = #{id}
         ORDER BY ORDERS.IDX DESC
     </select>
-    <select id="findBySubs" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultMap="OrdersMap">
+    <select id="findBySubs" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultMap="OrdersMap">
         SELECT *
         FROM ORDERS
         WHERE IDX IN
@@ -68,7 +68,7 @@
               )
         ORDER BY IDX DESC
     </select>
-    <select id="findByFlower" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultMap="OrdersMap">
+    <select id="findByFlower" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultMap="OrdersMap">
         SELECT *
         FROM ORDERS
         WHERE IDX IN
@@ -95,7 +95,7 @@
         WHERE ORDERS_IDX = #{idx}
     </select>
 
-<!--    <select id="findByMember" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="com.flo.alwaysbom.order.vo.OrdersVo">-->
+<!--    <select id="findByMember" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultType="com.flo.alwaysbom.order.vo.OrdersVo">-->
 <!--        SELECT * FROM ORDERS-->
 <!--                 INNER JOIN OITEM ON(OITEM.ORDERS_IDX = ORDERS.IDX)-->
 <!--        WHERE ORDERS.MEMBER_ID = #{id}-->
@@ -130,7 +130,7 @@
         WHERE IDX = #{idx}
     </update>
 
-    <update id="updatePoint" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+    <update id="updatePoint" parameterType="com.flo.alwaysbom.member.vo.MemberVo">
         UPDATE MEMBER
         SET POINT = #{point}
         WHERE ID = #{id}

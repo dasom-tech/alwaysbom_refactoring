@@ -1,6 +1,6 @@
 package com.flo.alwaysbom.order.controller;
 
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.dao.OrdersDao;
 import com.flo.alwaysbom.order.service.OrdersService;
 import com.flo.alwaysbom.order.vo.OrdersSearchOptionDto;
@@ -27,9 +27,9 @@ public class BackOrderController {
 
     //주문정보 + 주문한 상품내역 조회 (관리자용)
     @GetMapping("/admin/orders")
-    public String findOrder(@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String findOrder(@SessionAttribute(required = false) MemberVo member, Model model) {
         if (member == null) {
-            member = MemberVO.builder().id("yuna1880").build();
+            member = MemberVo.builder().id("yuna1880").build();
         }
 
         OrdersSearchOptionDto searchOption = OrdersSearchOptionDto.builder()

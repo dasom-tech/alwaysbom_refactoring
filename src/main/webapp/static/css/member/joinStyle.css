@@ -81,8 +81,8 @@ div {
     display: block;
 }
 
-.let_join {
-    color: #0dcaf0;
+.accept_join {
+    color: darkgray;
 }
 .blind {
     position: absolute;

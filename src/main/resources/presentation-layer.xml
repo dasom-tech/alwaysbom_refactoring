@@ -32,11 +32,10 @@
             <mvc:mapping path="/order/**"/>
             <mvc:mapping path="/orders/**"/>
             <mvc:mapping path="/fclass/payment"/>
-            <mvc:mapping path="/myPage"/>
-            <mvc:mapping path="/myPage_faq_main"/>
+            <mvc:mapping path="/mypage"/>
+            <mvc:mapping path="/mypage_myQnA"/>
             <mvc:mapping path="/member_grade"/>
             <mvc:mapping path="/member_update"/>
-            <mvc:mapping path="/mypage_review"/>
             <mvc:mapping path="/member_point"/>
             <mvc:mapping path="/member_delete"/>
             <ref bean="loginInterceptor"/>

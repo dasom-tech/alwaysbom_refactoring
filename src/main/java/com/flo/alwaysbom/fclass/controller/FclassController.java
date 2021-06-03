@@ -8,7 +8,7 @@ import com.flo.alwaysbom.fclass.service.FclassService;
 import com.flo.alwaysbom.fclass.service.OclassService;
 import com.flo.alwaysbom.fclass.service.ScheduleService;
 import com.flo.alwaysbom.fclass.vo.*;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -37,7 +37,7 @@ public class FclassController {
 
 
     @GetMapping("/fclass/orders")
-    public String goMyClassList(@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String goMyClassList(@SessionAttribute(required = false) MemberVo member, Model model) {
 /*
         OclassSearchOptionDto searchOption = new OclassSearchOptionDto();
         //searchOption.setMemberId(member != null ? member.getId() : "minho1030@naver.com");
@@ -49,7 +49,7 @@ public class FclassController {
     }
 
     @GetMapping("/api/fclass/orders")
-    public String getOrders(@SessionAttribute(required = false) MemberVO member, Model model, OclassSearchOptionDto searchOption) {
+    public String getOrders(@SessionAttribute(required = false) MemberVo member, Model model, OclassSearchOptionDto searchOption) {
         searchOption.setMemberId(member != null ? member.getId() : "minho1030@naver.com");
         List<OclassVo> orders = oclassService.findBySearchOption(searchOption);
         model.addAttribute("orders", orders);
@@ -69,7 +69,7 @@ public class FclassController {
 
     @GetMapping("/fclass/classList/{idx}")
     public String classDetail(@PathVariable("idx") Integer idx,
-                              @SessionAttribute(required = false) MemberVO member, Model model) {
+                              @SessionAttribute(required = false) MemberVo member, Model model) {
         FclassVo fclassVo = fclassService.findByIdx(idx);
         List<BranchVo> branchList = fclassVo.getBranchList();
         //전체리뷰 값 가져오기
@@ -109,14 +109,14 @@ public class FclassController {
     }
 
     @GetMapping("/fclass/payment")
-    public String goPayment(@SessionAttribute(required = false) MemberVO member, Integer scheduleIdx, Integer regCount, Model model) {
+    public String goPayment(@SessionAttribute(required = false) MemberVo member, Integer scheduleIdx, Integer regCount, Model model) {
         // member는 아마도.. 세션에서 꺼내올거야
         // 지금은 임시로 객체를 여기서 생성한다
- /*       MemberVO memberVO = new MemberVO();
-        memberVO.setId("dlagksk64@naver.com");
-        memberVO.setPoint(2000);
-        memberVO.setGrade("자스민");
-        memberVO.setName("임하나");*/
+ /*       memberVo memberVo = new memberVo();
+        memberVo.setId("dlagksk64@naver.com");
+        memberVo.setPoint(2000);
+        memberVo.setGrade("자스민");
+        memberVo.setName("임하나");*/
         //////////////////////////////////////////
 
         ScheduleVo scheduleVo = scheduleService.findByIdx(scheduleIdx);
@@ -133,7 +133,7 @@ public class FclassController {
     }
 
     @PostMapping ("/fclass/completePayment")
-    public String completePayment(@SessionAttribute(required = false) MemberVO member, Integer scheduleIdx, OclassVo ovo, Model model) {
+    public String completePayment(@SessionAttribute(required = false) MemberVo member, Integer scheduleIdx, OclassVo ovo, Model model) {
         // @RequestParam("pay-type") String payType, Integer payTotal, String payDate, Integer discountGrade, Integer discountPoint, Model model
         ScheduleVo svo = scheduleService.findByIdx(scheduleIdx);
         FclassVo fvo = fclassService.findByIdx(svo.getFclassIdx());
@@ -167,7 +167,7 @@ public class FclassController {
 
         model.addAttribute("order", ovo);
 
-        /*MemberVO member = new MemberVO();
+        /*memberVo member = new memberVo();
         member.setName("임하나");*/
         model.addAttribute("member", member);
 
@@ -195,7 +195,7 @@ public class FclassController {
     @PostMapping(value = "/fclass/api/classList/{idx}/reviews", produces = {"application/json;charset=utf-8"})
     @ResponseBody
     public ReviewDto addReview(@ModelAttribute FclassReviewForm newReview, @PathVariable Integer idx,
-                               @SessionAttribute MemberVO member) throws IOException {
+                               @SessionAttribute MemberVo member) throws IOException {
 
         ReviewDto reviewDto = null;
         try {

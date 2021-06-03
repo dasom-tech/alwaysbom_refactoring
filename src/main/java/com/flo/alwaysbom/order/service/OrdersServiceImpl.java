@@ -2,7 +2,7 @@ package com.flo.alwaysbom.order.service;
 
 
 import com.flo.alwaysbom.cart.dao.CartDao;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.dao.OrdersDao;
 import com.flo.alwaysbom.order.vo.*;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +50,12 @@ public class OrdersServiceImpl implements OrdersService {
 
     // 배송지 불러오기
     @Override
-    public DeliveryInfoVo findAddress(MemberVO vo) {
+    public DeliveryInfoVo findAddress(MemberVo vo) {
         return orderDao.findAddress(vo);
     }
 
     @Override
-    public int getPoint(MemberVO mvo) {
+    public int getPoint(MemberVo mvo) {
         return orderDao.getPoint(mvo);
     }
 
@@ -67,7 +67,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrdersVo> findByMember(MemberVO vo) {
+    public List<OrdersVo> findByMember(MemberVo vo) {
 
         //여기서는 ordersList들만 뽑아줌
         List<OrdersVo> ordersList = orderDao.findByMember(vo);
@@ -98,17 +98,17 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public void updatePoint(MemberVO member) {
+    public void updatePoint(MemberVo member) {
         orderDao.updatePoint(member);
     }
 
     @Override
-    public List<OrdersVo> findBySubs(MemberVO member) {
+    public List<OrdersVo> findBySubs(MemberVo member) {
         return orderDao.findBySubs(member);
     }
 
     @Override
-    public List<OrdersVo> findByFlower(MemberVO member) {
+    public List<OrdersVo> findByFlower(MemberVo member) {
         return orderDao.findByFlower(member);
     }
 

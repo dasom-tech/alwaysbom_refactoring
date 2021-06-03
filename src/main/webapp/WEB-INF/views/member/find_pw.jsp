@@ -65,10 +65,6 @@
         display: block;
         clear: both;
     }
-    .col {
-        margin: 0;
-        padding: 0;
-    }
     .login_user_input span.ipt {
         border: none;
         padding: 10px;
@@ -129,11 +125,5 @@
         font-size: 16px;
         line-height: 50px;
         letter-spacing: -.24px;
-    }
-    .login_id_find_results {
-        padding: 20px;
-        margin-top: 10px;
-        border: #ffcd32 1px solid;
-        border-radius: 5px;
     }
 </style>

@@ -4,7 +4,7 @@ import com.flo.alwaysbom.community.question.vo.QuestionVo;
 import com.flo.alwaysbom.coupon.service.CouponService;
 import com.flo.alwaysbom.coupon.vo.CouponVo;
 import com.flo.alwaysbom.member.service.MemberService;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,10 +41,10 @@ public class MemberController {
 
     //회원가입 화면 요청(post)
     @PostMapping("/member_join")
-    public String member_join(MemberVO memberVO, String joinPassword) {
-        //System.out.println("memberVO = " + memberVO);
+    public String member_join(MemberVo memberVo, String joinPassword) {
+        //System.out.println("memberVo = " + memberVo);
         if ("tosmfqha1!".equals(joinPassword)) {
-            memberService.insertMember(memberVO);
+            memberService.insertMember(memberVo);
         }
         return "member/login";
     }
@@ -68,7 +68,7 @@ public class MemberController {
     public boolean loginProc(@RequestParam String id, @RequestParam String pw, Model model, RedirectAttributes rttr) throws Exception {
         //System.out.println("아이디 : " + id + ", 패스워드 : " + pw);
 
-        MemberVO member = new MemberVO();
+        MemberVo member = new MemberVo();
         member.setId(id);
         member.setPw(pw);
         member = memberService.login(member);
@@ -116,20 +116,20 @@ public class MemberController {
 
     // 비밀번호 찾기
     @RequestMapping(value = "/found_pw", method = RequestMethod.POST)
-    public String found_pw(@ModelAttribute MemberVO memberVO, HttpServletResponse response) throws Exception{
-        memberService.find_pw(response, memberVO);
+    public String found_pw(@ModelAttribute MemberVo memberVo, HttpServletResponse response) throws Exception{
+        memberService.find_pw(response, memberVo);
         return "/member/found_pw";
     }
 
     //마이페이지 메인
-    @GetMapping("/myPage")
-    public String myPage() {
-        return "member/myPage";
+    @GetMapping("/mypage")
+    public String mypage() {
+        return "member/mypage";
     }
 
     //1:1문의
-    @GetMapping("/myPage_faq_main")
-    public String myPage_faq_main(@SessionAttribute(required = false) MemberVO member, Model model) {
+    @GetMapping("/mypage_myQnA")
+    public String mypage_myQnA(@SessionAttribute(required = false) MemberVo member, Model model) {
         //회원 로그인 정보 받아오기
         if (member == null) {
             return "member/login";
@@ -139,7 +139,7 @@ public class MemberController {
 
         model.addAttribute("quList", qlist);
         System.out.println("qList test = " + qlist);
-        return "member/myPage_faq_main";
+        return "member/mypage_myQnA";
     }
 
     //카카오 회원가입
@@ -162,16 +162,10 @@ public class MemberController {
 
     //회원정보수정(post)
     @RequestMapping(value="/member_update", method = RequestMethod.POST)
-    public String member_update(MemberVO memberVO, HttpSession session) throws Exception{
-        memberService.updateMember(memberVO);
+    public String member_update(MemberVo memberVo, HttpSession session) throws Exception{
+        memberService.updateMember(memberVo);
         session.invalidate();
         return "redirect:/";
-    }
-
-    //상품 후기
-    @GetMapping("/mypage_review")
-    public String mypage_review() {
-        return "member/mypage_review";
     }
 
     //포인트
@@ -188,8 +182,8 @@ public class MemberController {
 
     //회원 탈퇴(post)
     @RequestMapping(value="/member_delete", method = RequestMethod.POST)
-    public String member_delete(MemberVO memberVO, Model model, HttpSession session) throws Exception{
-        memberService.deleteMember(memberVO, session);
+    public String member_delete(MemberVo memberVo, Model model, HttpSession session) throws Exception{
+        memberService.deleteMember(memberVo, session);
         model.addAttribute("member", null);
         return "redirect:/";
     }
@@ -197,7 +191,7 @@ public class MemberController {
     //쿠폰 사용
     @PostMapping("/api/useCoupon")
     @ResponseBody
-    public CouponVo useCoupon(@RequestBody Integer idx, Model model, @SessionAttribute MemberVO member){
+    public CouponVo useCoupon(@RequestBody Integer idx, Model model, @SessionAttribute MemberVo member){
         // 넘겨받은 couponVo 의 idx 를 사용해서 쿠폰 vo 찾기
         CouponVo couponVo = couponService.findByIdx(idx);
         couponVo.setStatus(1);
@@ -231,7 +225,7 @@ public class MemberController {
     //회원 목록
     @GetMapping("/admin/b_memList")
     public String b_memList(Model model) {
-        List<MemberVO> list = memberService.b_memList();
+        List<MemberVo> list = memberService.b_memList();
         model.addAttribute("list", list);
         System.out.println(list);
         return "member/b_memList";

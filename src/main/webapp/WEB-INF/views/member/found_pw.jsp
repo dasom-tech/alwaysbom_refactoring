@@ -39,20 +39,10 @@
         padding-top: 50px;
         padding-bottom: 50px;
     }
-
-    .row {
-        display: block;
-        margin: 0;
-        padding-bottom: 30px;
-    }
     .login_user_input {
         content: '';
         display: block;
         clear: both;
-    }
-    .col {
-        margin: 0;
-        padding: 0;
     }
     .login_user_input span.ipt {
         border: none;
@@ -92,7 +82,6 @@
         border-top: #ececec 1px solid;
         text-align: center;
     }
-
     .login_user_input .row .col {
         display: block;
         float: left;
@@ -114,12 +103,6 @@
         font-size: 16px;
         line-height: 50px;
         letter-spacing: -.24px;
-    }
-    .login_id_find_results {
-        padding: 20px;
-        margin-top: 10px;
-        border: #ffcd32 1px solid;
-        border-radius: 5px;
     }
 </style>
 

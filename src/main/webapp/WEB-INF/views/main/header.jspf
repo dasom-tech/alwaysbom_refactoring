@@ -55,13 +55,13 @@
                         <li><a href="/community/event/eventlist">이벤트</a></li>
                         <li><a href="/community/goReview">리뷰게시판</a></li>
                         <li><a href="/community/goFaq">FAQ</a></li>
-                        <li class="mb-2"><a href="/myPage_faq_main">1:1문의</a></li>
+                        <li class="mb-2"><a href="/mypage_myQnA">1:1문의</a></li>
                     </ul>
                     <div class="under-bar" id="under-bar5"></div>
                 </li>
 
                 <li class="h-menu-icon ms-5">
-                    <img src="/static/icons/user.svg" class="h-menu-svg" alt="user" title="마이페이지" onclick="${empty member ? "showLoginModal()" : "location.href='/myPage'"}">
+                    <img src="/static/icons/user.svg" class="h-menu-svg" alt="user" title="마이페이지" onclick="${empty member ? "showLoginModal()" : "location.href='/mypage'"}">
                 </li>
                 <li class="h-menu-icon">
                     <img src="/static/icons/cart.svg" class="h-menu-svg" alt="cart" title="장바구니" onclick="${empty member ? "showLoginModal()" : "location.href='/cart/list'"}">

@@ -8,7 +8,7 @@ import com.flo.alwaysbom.flower.service.FlowerService;
 import com.flo.alwaysbom.flower.vo.FlowerVo;
 import com.flo.alwaysbom.item.service.ItemService;
 import com.flo.alwaysbom.item.vo.ItemReviewForm;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OitemVo;
 import com.flo.alwaysbom.product.service.ProductService;
 import com.flo.alwaysbom.product.vo.ProductVo;
@@ -49,7 +49,7 @@ public class FlowerController {
     }
 
     @GetMapping("/flower/{idx}")
-    public String getOne(@PathVariable("idx") Integer idx, Model model, @SessionAttribute(required = false) MemberVO member) {
+    public String getOne(@PathVariable("idx") Integer idx, Model model, @SessionAttribute(required = false) MemberVo member) {
         FlowerVo flower = flowerService.findByIdx(idx)
                 .orElseThrow(() -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));
         // 추가옵션상품 불러오기
@@ -79,7 +79,7 @@ public class FlowerController {
     @PostMapping(value = "/flower/{idx}/reviews", produces = {"application/json;charset=utf-8"})
     @ResponseBody
     public ReviewDto addReview(@ModelAttribute ItemReviewForm newReview, @PathVariable Integer idx,
-                               @SessionAttribute MemberVO member) throws IOException {
+                               @SessionAttribute MemberVo member) throws IOException {
 
         ReviewDto reviewDto;
         try {

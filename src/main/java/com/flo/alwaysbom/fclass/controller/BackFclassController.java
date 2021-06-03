@@ -5,7 +5,7 @@ import com.flo.alwaysbom.fclass.service.FclassService;
 import com.flo.alwaysbom.fclass.service.OclassService;
 import com.flo.alwaysbom.fclass.service.ScheduleService;
 import com.flo.alwaysbom.fclass.vo.*;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.logging.Logger;

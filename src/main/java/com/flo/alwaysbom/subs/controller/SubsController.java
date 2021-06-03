@@ -5,7 +5,7 @@ import com.flo.alwaysbom.banner.vo.BannerVo;
 import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.item.service.ItemService;
 import com.flo.alwaysbom.item.vo.ItemReviewForm;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OitemVo;
 import com.flo.alwaysbom.product.service.ProductServiceImpl;
 import com.flo.alwaysbom.product.vo.ProductVo;
@@ -42,7 +42,7 @@ public class SubsController {
     }
 
     @GetMapping("/subs/{idx}")
-    public String getOne(@PathVariable("idx") Integer idx, Model model, @SessionAttribute(required = false) MemberVO member) {
+    public String getOne(@PathVariable("idx") Integer idx, Model model, @SessionAttribute(required = false) MemberVo member) {
         SubsVo subs = subsService.findByIdx(idx)
                 .orElseThrow( () -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));
         // 추가 옵션 상품 불러오기
@@ -71,7 +71,7 @@ public class SubsController {
     @PostMapping(value = "/subs/{idx}/reviews", produces = {"application/json;charset=utf-8"})
     @ResponseBody
     public ReviewDto addReview(@ModelAttribute ItemReviewForm newReview, @PathVariable Integer idx,
-                               @SessionAttribute MemberVO member) throws IOException {
+                               @SessionAttribute MemberVo member) throws IOException {
 
         ReviewDto reviewDto;
         try {

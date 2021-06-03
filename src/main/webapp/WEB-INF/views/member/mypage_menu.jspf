@@ -20,7 +20,7 @@
             <a href="/community/goFaq" class="link-secondary">자주 묻는 질문</a>
         </li>
         <li class="list-group-item">
-            <a href="/myPage_faq_main" class="link-secondary">1:1 문의</a>
+            <a href="/mypage_myQnA" class="link-secondary">1:1 문의</a>
         </li>
         <li class="list-group-item">
             <a href="/community/com_mypage_review" class="link-secondary">상품 후기</a>

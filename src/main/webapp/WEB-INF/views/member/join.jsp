@@ -19,8 +19,9 @@
                         바로 사용할 수 있는 <b>1,000P</b>
                         를 드려요!
                     </p>
-                    <p class="let_join">이 사이트는 포트폴리오 용 사이트입니다.<br>
-                        테스트용으로 이용하실분만 가입하시고 민감한 개인정보는 입력하지 마시길 바랍니다</p>
+                    <p class="accept_join">이 사이트는 포트폴리오 사이트입니다.<br>
+                        실제 운영중인 사이트가 아니므로 회원가입은<br>
+                        가입 승인 비밀번호 입력 후 이용 가능합니다.</p>
                     <div class="d-flex justify-content-center">
                         <a href="/member_join" class="link email border-dark rounded-3 p-2 col-12 text-center text-decoration-none">
                             이메일 회원가입

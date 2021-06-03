@@ -10,7 +10,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberVO{
+public class MemberVo{
 
     private String id;
     private String pw;

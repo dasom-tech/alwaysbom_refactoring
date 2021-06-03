@@ -1,6 +1,6 @@
 package com.flo.alwaysbom.order.dao;
 
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.*;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,18 +31,18 @@ public class OrdersDao {
     }
 
     //저장된 배송지 찾기
-    public DeliveryInfoVo findAddress(MemberVO vo) {
+    public DeliveryInfoVo findAddress(MemberVo vo) {
         System.out.println(">> OrderDao() findAddress()실행");
-        System.out.println("받은 membervo : " + vo);
+        System.out.println("받은 memberVo : " + vo);
         return sqlSessionTemplate.selectOne("orders-mapper.findDelivery",vo);
     }
 
     //포인트찾기 (더미)
-    public int getPoint(MemberVO mvo) {
+    public int getPoint(MemberVo mvo) {
         return sqlSessionTemplate.selectOne("orders-mapper.getPoint",mvo);
     }
 
-    public List<OrdersVo> findByMember(MemberVO vo) {
+    public List<OrdersVo> findByMember(MemberVo vo) {
         return sqlSessionTemplate.selectList("orders-mapper.findByMember",vo);
     }
 
@@ -62,16 +62,16 @@ public class OrdersDao {
         return sqlSessionTemplate.update("orders-mapper.updateStatus", orders) > 0;
     }
 
-    public void updatePoint(MemberVO member) {
+    public void updatePoint(MemberVo member) {
         sqlSessionTemplate.update("orders-mapper.updatePoint", member);
     }
 
     //정기구독 주문리스트 조회
-    public List<OrdersVo> findBySubs(MemberVO member) {
+    public List<OrdersVo> findBySubs(MemberVo member) {
         return sqlSessionTemplate.selectList("orders-mapper.findBySubs", member);
     }
     //소품샵, 꽃다발 주문조회
-    public List<OrdersVo> findByFlower(MemberVO member) {
+    public List<OrdersVo> findByFlower(MemberVo member) {
         return sqlSessionTemplate.selectList("orders-mapper.findByFlower", member);
     }
 }

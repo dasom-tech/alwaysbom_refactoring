@@ -4,7 +4,7 @@ import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.community.review.service.ReviewService;
 import com.flo.alwaysbom.community.review.vo.ReviewLikeVo;
 import com.flo.alwaysbom.fclass.vo.OclassVo;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OrdersVo;
 import com.flo.alwaysbom.util.CloudFileHandler;
 import com.flo.alwaysbom.util.FileHandler;
@@ -29,10 +29,10 @@ public class ReviewController {
     private final FileHandler fileHandler;
 
     @GetMapping("/community/goReview")
-    public String goReview(@SessionAttribute(required = false) MemberVO member, Model model){
+    public String goReview(@SessionAttribute(required = false) MemberVo member, Model model){
         if (member == null) {
             // 없을 때 임시
-            member = new MemberVO();
+            member = new MemberVo();
             member.setId("ee@test.com");
         }
 
@@ -47,10 +47,10 @@ public class ReviewController {
 
     @PostMapping("/community/api/category/goAllReview")
     @ResponseBody
-    public List<ReviewDto> goAllReview(@SessionAttribute(required = false) MemberVO member, Model model, String category, String startIndex, String endIndex){
+    public List<ReviewDto> goAllReview(@SessionAttribute(required = false) MemberVo member, Model model, String category, String startIndex, String endIndex){
         if (member == null) {
             // 없을 때 임시
-            member = new MemberVO();
+            member = new MemberVo();
             member.setId("ee@test.com");
         }
 
@@ -73,10 +73,10 @@ public class ReviewController {
 
     @PostMapping("/question/searchReview")
     @ResponseBody
-    public List<ReviewDto> searchReview(@SessionAttribute(required = false) MemberVO member, String opt, String search, Model model){
+    public List<ReviewDto> searchReview(@SessionAttribute(required = false) MemberVo member, String opt, String search, Model model){
         if (member == null) {
             // 없을 때 임시
-            member = new MemberVO();
+            member = new MemberVo();
             member.setId("ee@test.com");
         }
 
@@ -89,10 +89,10 @@ public class ReviewController {
 
     @PostMapping("/community/api/category/goBestReview")
     @ResponseBody
-    public List<ReviewDto> goAllReview(@SessionAttribute(required = false) MemberVO member, Model model, String tab, String category){
+    public List<ReviewDto> goAllReview(@SessionAttribute(required = false) MemberVo member, Model model, String tab, String category){
         if (member == null) {
             // 없을 때 임시
-            member = new MemberVO();
+            member = new MemberVo();
             member.setId("ee@test.com");
         }
         System.out.println(category + " 카테 " + tab + "탭탭");
@@ -108,10 +108,10 @@ public class ReviewController {
     }
 
     @GetMapping("/community/category/goReview")
-    public String goReview(@SessionAttribute(required = false) MemberVO member, Model model, String category, Integer page){
+    public String goReview(@SessionAttribute(required = false) MemberVo member, Model model, String category, Integer page){
         if (member == null) {
             // 없을 때 임시
-            member = new MemberVO();
+            member = new MemberVo();
             member.setId("ee@test.com");
         }
         if (category == null){
@@ -135,7 +135,7 @@ public class ReviewController {
     }
 
     @GetMapping("/community/category/deleteReview")
-    public String deleteReview(@SessionAttribute(required = false) MemberVO member, Integer idx){
+    public String deleteReview(@SessionAttribute(required = false) MemberVo member, Integer idx){
         service.deleteReview(idx, member);
         return "redirect:/community/goReview";
     }
@@ -153,8 +153,8 @@ public class ReviewController {
         return true;
     }
 
-    @GetMapping("/community/com_mypage_review")
-    public String myPageReview(@SessionAttribute(required = false) MemberVO member, Model model){
+    @GetMapping("/community/com__review")
+    public String Review(@SessionAttribute(required = false) MemberVo member, Model model){
         List<OrdersVo> orderList = service.reviewPossible(member.getId());
         System.out.println(orderList);
         model.addAttribute("orderList", orderList);
@@ -172,7 +172,7 @@ public class ReviewController {
     }
 
     @PostMapping("/admin/community/addReview")
-    public String addReview(@SessionAttribute(required = false) MemberVO member, ReviewDto vo, MultipartFile file, Integer comment, Integer oidx) throws IOException {
+    public String addReview(@SessionAttribute(required = false) MemberVo member, ReviewDto vo, MultipartFile file, Integer comment, Integer oidx) throws IOException {
         System.out.println(vo + "  " + file + "  " + comment);
         vo.setImage(fileHandler.uploadFile(file, vo.getImage(), "review"));
         vo.setStar(comment);
@@ -184,7 +184,7 @@ public class ReviewController {
 
     @GetMapping("/community/api/myPageReviewe")
     @ResponseBody
-    public List<OrdersVo> myPageReviewe(@SessionAttribute(required = false) MemberVO member, Model model){
+    public List<OrdersVo> myPageReviewe(@SessionAttribute(required = false) MemberVo member, Model model){
     List<OrdersVo> orderList = service.reviewPossible(member.getId());
         System.out.println(orderList);
         model.addAttribute("orderList", orderList);
@@ -200,7 +200,7 @@ public class ReviewController {
     }
 
     @PostMapping("/admin/community/updateReview")
-    public String updateReview(@SessionAttribute(required = false) MemberVO member, ReviewDto vo, MultipartFile file, Integer comment, Integer idx) throws IOException {
+    public String updateReview(@SessionAttribute(required = false) MemberVo member, ReviewDto vo, MultipartFile file, Integer comment, Integer idx) throws IOException {
         vo.setImage(fileHandler.uploadFile(file, vo.getImage(), "review"));
         vo.setStar(comment);
         vo.setMemberId(member.getId());
@@ -218,7 +218,7 @@ public class ReviewController {
 
     @GetMapping("/community/api/myPageReviewFclass")
     @ResponseBody
-    public List<OclassVo> reviewOclass(@SessionAttribute(required = false) MemberVO member, Integer check){
+    public List<OclassVo> reviewOclass(@SessionAttribute(required = false) MemberVo member, Integer check){
         List<OclassVo> OclassList = service.reviewOclass(member.getId(), check);
         System.out.println(OclassList);
         return OclassList;

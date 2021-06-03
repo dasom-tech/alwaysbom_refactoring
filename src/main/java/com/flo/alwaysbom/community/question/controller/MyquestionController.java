@@ -2,8 +2,7 @@ package com.flo.alwaysbom.community.question.controller;
 
 import com.flo.alwaysbom.community.question.service.QuestionServise;
 import com.flo.alwaysbom.community.question.vo.QuestionVo;
-import com.flo.alwaysbom.member.vo.MemberVO;
-import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,7 @@ public class MyquestionController {
     private final QuestionServise servise;
     // 여기부터는 로그인 회원 정보 받기
     @GetMapping("/question/create")
-    public String question(@SessionAttribute(required = false) MemberVO member, Model model){
+    public String question(@SessionAttribute(required = false) MemberVo member, Model model){
         if (member == null) {
             // 없을 때 임시
             return "member/login";
@@ -34,7 +33,7 @@ public class MyquestionController {
 
     @PostMapping("/admin/question/api/writeQuest")
     @ResponseBody
-    public Boolean addQuestion(@SessionAttribute(required = false) MemberVO member, QuestionVo vo, MultipartFile file) throws IOException {
+    public Boolean addQuestion(@SessionAttribute(required = false) MemberVo member, QuestionVo vo, MultipartFile file) throws IOException {
         if(vo.getEmailSend() == null){
             vo.setEmailSend(0);
         }

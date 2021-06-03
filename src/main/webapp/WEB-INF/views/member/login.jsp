@@ -6,9 +6,6 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
 <style>
-    .join-header {
-        border-bottom: 1px solid #4D4D4D;
-    }
     #id_email {
         border-radius: 10px;
         border: 1px solid #888888;
@@ -25,7 +22,6 @@
     #join-btn {
         border-radius: 10px;
     }
-
 </style>
 <body>
 <%@ include file="../main/header.jspf" %>

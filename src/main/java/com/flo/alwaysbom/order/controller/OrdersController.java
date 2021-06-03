@@ -3,22 +3,19 @@ package com.flo.alwaysbom.order.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.service.OrderPriceService;
 import com.flo.alwaysbom.order.vo.*;
-import com.flo.alwaysbom.member.vo.MemberVO;
 import com.flo.alwaysbom.order.service.OrdersService;
 import com.flo.alwaysbom.util.MailSend;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +29,7 @@ public class OrdersController {
     //주문 시작!
     @PostMapping("/order/letter")
 
-    public String startOrder(@SessionAttribute("member") MemberVO member, String data, Model model) throws JsonProcessingException {
+    public String startOrder(@SessionAttribute("member") MemberVo member, String data, Model model) throws JsonProcessingException {
         System.out.println(">>startOrder() 주문시작!");
 
         ObjectMapper mapper = new ObjectMapper();
@@ -69,7 +66,7 @@ public class OrdersController {
 
     //배송지입력 후 -> 결제전 확인 페이지
     @PostMapping("/order/payment")
-    public String goPayment(@SessionAttribute("oitemList") List<OitemVo> olist , OrdersVo ordersVo,@SessionAttribute("member") MemberVO member, Model model) {
+    public String goPayment(@SessionAttribute("oitemList") List<OitemVo> olist , OrdersVo ordersVo,@SessionAttribute("member") MemberVo member, Model model) {
 
         //세션값 가져오기
         System.out.println("orderVo = " + ordersVo); //orderList
@@ -88,7 +85,7 @@ public class OrdersController {
     //배송지 찾기
     @PostMapping("/order/findAddress")
     @ResponseBody
-    public DeliveryInfoVo findAddress(@SessionAttribute("member") MemberVO member) {
+    public DeliveryInfoVo findAddress(@SessionAttribute("member") MemberVo member) {
         System.out.println("findAddress()");
         System.out.println("member : " + member);
         DeliveryInfoVo dvo = ordersService.findAddress(member);
@@ -98,7 +95,7 @@ public class OrdersController {
 
     //주문 전 확인창 (결제 정보 입력) -> 주문 완료
     @PostMapping("/order/complete")
-    public String completeOrder (@SessionAttribute("oitemList") List<OitemVo> olist, @SessionAttribute("member") MemberVO member, OrdersVo ordersVo, Model model) {
+    public String completeOrder (@SessionAttribute("oitemList") List<OitemVo> olist, @SessionAttribute("member") MemberVo member, OrdersVo ordersVo, Model model) {
 
         System.out.println("OrdersController.completeOrder");
         System.out.println("oitemList : " + olist);
@@ -140,9 +137,9 @@ public class OrdersController {
 
     //주문정보 + 주문한 상품내역 조회 (회원용)
     @GetMapping("/orders")
-    public String findByMember(@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String findByMember(@SessionAttribute(required = false) MemberVo member, Model model) {
         if (member == null) {
-            member = MemberVO.builder().id("yuna1880").build();
+            member = MemberVo.builder().id("yuna1880").build();
         }
 
         OrdersSearchOptionDto searchOption = OrdersSearchOptionDto.builder()
@@ -159,9 +156,9 @@ public class OrdersController {
 
     // (정기구독)으로 조회
     @GetMapping("/orders/subsList")
-    public String findBySubs (@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String findBySubs (@SessionAttribute(required = false) MemberVo member, Model model) {
         if (member == null) {
-            member = MemberVO.builder().id("yuna1880").build();
+            member = MemberVo.builder().id("yuna1880").build();
         }
         List<OrdersVo> ordersList = ordersService.findBySubs(member);
         ordersList.forEach(ordersVo -> {
@@ -177,9 +174,9 @@ public class OrdersController {
 
     // (꽃다발, 소품샵) 으로 조회
     @GetMapping("/orders/flowerList")
-    public String findByFlower (@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String findByFlower (@SessionAttribute(required = false) MemberVo member, Model model) {
         if (member == null) {
-            member = MemberVO.builder().id("yuna1880").build();
+            member = MemberVo.builder().id("yuna1880").build();
         }
         List<OrdersVo> ordersList = ordersService.findByFlower(member);
         ordersList.forEach(ordersVo -> {
@@ -196,10 +193,10 @@ public class OrdersController {
 
     // status (주문상태 = 배송완료) 로 조회하기 (동호)
     @GetMapping("/orders/status")
-    public String findByStatus(@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String findByStatus(@SessionAttribute(required = false) MemberVo member, Model model) {
 
         if (member == null) {
-            member = MemberVO.builder().id("yuna1880").build();
+            member = MemberVo.builder().id("yuna1880").build();
         }
 
         OrdersSearchOptionDto searchOption = OrdersSearchOptionDto.builder()

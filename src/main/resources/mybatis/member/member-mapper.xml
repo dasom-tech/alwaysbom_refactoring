@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
     <!-- 회원가입 -->
-    <insert id="insertMember" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+    <insert id="insertMember" parameterType="com.flo.alwaysbom.member.vo.MemberVo">
         INSERT INTO MEMBER (ID, PW, NAME, BIRTH, GENDER, PHONE)
         VALUES (#{id}, #{pw}, #{name}, #{birth}, #{gender}, #{phone})
     </insert>
 
     <!-- 로그인 -->
-    <select id="Login" parameterType="com.flo.alwaysbom.member.vo.MemberVO" resultType="com.flo.alwaysbom.member.vo.MemberVO">
+    <select id="Login" parameterType="com.flo.alwaysbom.member.vo.MemberVo" resultType="com.flo.alwaysbom.member.vo.MemberVo">
         SELECT *
         FROM MEMBER
         WHERE id = #{id}
@@ -50,7 +50,7 @@
     </select>
 
     <!-- 비밀번호 변경 -->
-    <update id="update_pw" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+    <update id="update_pw" parameterType="com.flo.alwaysbom.member.vo.MemberVo">
         UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
     </update>
 
@@ -67,7 +67,7 @@
     </select>
 
     <!--회원 목록-->
-    <select id="b_memList" resultType="com.flo.alwaysbom.member.vo.MemberVO">
+    <select id="b_memList" resultType="com.flo.alwaysbom.member.vo.MemberVo">
         SELECT id, name, birth, gender, phone, grade, point
         FROM member
         WHERE QUIT_STATUS = 0

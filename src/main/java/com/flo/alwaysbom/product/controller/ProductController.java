@@ -7,7 +7,7 @@ import com.flo.alwaysbom.community.review.service.ReviewService;
 import com.flo.alwaysbom.fclass.vo.FclassReviewForm;
 import com.flo.alwaysbom.item.service.ItemService;
 import com.flo.alwaysbom.item.vo.ItemReviewForm;
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OitemVo;
 import com.flo.alwaysbom.product.service.ProductService;
 import com.flo.alwaysbom.product.vo.ProductVo;
@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{idx}")
-    public String getOne(@PathVariable("idx") Integer idx, Model model, @SessionAttribute(required = false) MemberVO member) {
+    public String getOne(@PathVariable("idx") Integer idx, Model model, @SessionAttribute(required = false) MemberVo member) {
         ProductVo product = productService.findByIdx(idx)
                 .orElseThrow(() -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));
         // 소품샵 카테고리 베스트 리뷰 불러오기
@@ -77,7 +77,7 @@ public class ProductController {
 
 //    @PostMapping("product/api/chkAvailability")
 //    @ResponseBody
-//    public Boolean isPossibleToWrite(@RequestBody Integer idx, @SessionAttribute MemberVO member) {
+//    public Boolean isPossibleToWrite(@RequestBody Integer idx, @SessionAttribute memberVo member) {
 //        Map<String, String> map = new HashMap<>();
 //        map.put("idx", idx + "");
 //        map.put("memberId", member.getId());
@@ -88,7 +88,7 @@ public class ProductController {
     @PostMapping(value = "/product/{idx}/reviews", produces = {"application/json;charset=utf-8"})
     @ResponseBody
     public ReviewDto addReview(@ModelAttribute ItemReviewForm newReview, @PathVariable Integer idx,
-                               @SessionAttribute MemberVO member) throws IOException {
+                               @SessionAttribute MemberVo member) throws IOException {
 
         ReviewDto reviewDto;
         try {

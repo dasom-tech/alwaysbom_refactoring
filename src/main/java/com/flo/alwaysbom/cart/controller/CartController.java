@@ -1,20 +1,12 @@
 package com.flo.alwaysbom.cart.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flo.alwaysbom.cart.service.CartService;
 import com.flo.alwaysbom.cart.vo.CartVo;
-import com.flo.alwaysbom.member.vo.MemberVO;
-import com.flo.alwaysbom.order.vo.Letter;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import lombok.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 
 @Controller
@@ -24,9 +16,9 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/cart/list")
-    public String getCart(@SessionAttribute(required = false) MemberVO member, Model model) {
+    public String getCart(@SessionAttribute(required = false) MemberVo member, Model model) {
         if (member == null) {
-            member = MemberVO.builder().id("test").build();
+            member = MemberVo.builder().id("test").build();
         }
 
         List<CartVo> list = cartService.findCartsByMember(member.getId());

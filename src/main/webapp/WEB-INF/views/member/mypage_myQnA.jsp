@@ -63,58 +63,6 @@
                         </c:forEach>
                         </tbody>
                     </table>
-<%--                    <div class="mx-5">--%>
-<%--                    <div class="row row-cols-6 mx-auto bottom-line reBoard">--%>
-<%--                        <span class="text-center col-2 nopadding">번호</span>--%>
-<%--                        <span class="text-center col-2 nopadding">작성일</span>--%>
-<%--                        <span class="text-center col-5 nopadding">제목</span>--%>
-<%--                        <span class="text-center col-3 nopadding">상태</span>--%>
-<%--                    </div>--%>
-
-<%--                    <c:forEach var="quList" items="${quList}">--%>
-<%--                    <ul class="nav row table mx-auto">--%>
-<%--                        <li>--%>
-<%--                            <div class="row row-cols-5 mx-auto bottom-line accoque reBoard">--%>
-<%--                                <span class="text-center col-2 nopadding">${quList.idx}</span>--%>
-<%--                                <span class="text-center col-2 nopadding">${quList.questionDate}</span>--%>
-<%--                                <span class="text-center col-5 nopadding">${quList.name}</span>--%>
-<%--                                <c:if test="${empty quList.answer}">--%>
-<%--                                    <span class="text-center col-2 nopadding">미답변</span>--%>
-<%--                                </c:if>--%>
-<%--                                <c:if test="${not empty quList.answer}">--%>
-<%--                                    <span class="text-center col-2 nopadding">답변완료</span>--%>
-<%--                                </c:if>--%>
-<%--                            </div>--%>
-<%--                            <div class="row bottom-line text-center toggleBtn disflex" style="display: none">--%>
-<%--                                <c:if test="${not empty quList.image}">--%>
-<%--                                    <div class="col">--%>
-<%--                                        <img src="${quList.image}" class="rounded-" alt="questimg" title="문의사진" style="height: 400px; width: 600px;">--%>
-<%--                                    </div>--%>
-<%--                                </c:if>--%>
-<%--                                <div class="col">--%>
-<%--                                    <span>${quList.content}</span>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div>--%>
-<%--                                <div class="row row-cols-5 mx-auto bottom-line accoque reBoard nopadding">--%>
-<%--                                    <span class="text-center col-2 nopadding">${quList.answerDate}</span>--%>
-<%--                                    <span class="text-center col-5 nopadding">${quList.answerTitle}</span>--%>
-<%--                                </div>--%>
-
-<%--                                <form  method="get" class="form-floating bottom-line toggleBtn">--%>
-<%--                                    <div class="row d-flex mb-2">--%>
-<%--                                        <c:if test="${not empty quList.answer}">--%>
-<%--                                            <div class="col form-floating">--%>
-<%--                                                <span>${quList.answer}</span>--%>
-<%--                                            </div>--%>
-<%--                                        </c:if>--%>
-<%--                                    </div>--%>
-<%--                                </form>--%>
-<%--                            </div>--%>
-<%--                        </li>--%>
-<%--                    </c:forEach>--%>
-<%--                    </ul>--%>
-<%--                    </div>--%>
                 </div>
             </div>
         </div>

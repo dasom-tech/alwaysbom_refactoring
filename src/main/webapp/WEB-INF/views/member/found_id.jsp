@@ -26,8 +26,6 @@
                     <a href="/find_pw" class="text-decoration-none text-secondary">비밀번호 찾기</a>
                 </div>
                 <p class="login_under_noti">
-                    - 개인정보 보호를 위해 아이디의 일부만 보여집니다.
-                    <br>
                     - 확인되지 않으시면 1:1 문의를 남겨주시기 바랍니다.
                     <br>
                     (평일 AM10시-PM6시에 빠른 답변 가능합니다.)
@@ -45,7 +43,6 @@
         padding-top: 50px;
         padding-bottom: 50px;
     }
-
     .row {
         display: block;
         margin: 0;
@@ -55,10 +52,6 @@
         content: '';
         display: block;
         clear: both;
-    }
-    .col {
-        margin: 0;
-        padding: 0;
     }
     .login_user_input span.ipt {
         border: none;
@@ -98,7 +91,6 @@
         border-top: #ececec 1px solid;
         text-align: center;
     }
-
     .login_user_input .row .col {
         display: block;
         float: left;

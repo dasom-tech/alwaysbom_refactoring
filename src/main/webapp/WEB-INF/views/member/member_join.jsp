@@ -130,12 +130,11 @@
     <label class="my-2">가입 비밀번호</label>
     <div class="d-flex flex-column mb-4">
         <input type="password" id="joinPassword" name="joinPassword" value="" class="col-12 mb-4"
-               title="테스트용 가입승인 비밀번호를 입력해주세요" maxlength="255" placeholder="가입 비밀번호 입력" autocomplete="off"/>
+               title="가입 승인 비밀번호를 입력해주세요" maxlength="255" placeholder="가입 비밀번호 입력" autocomplete="off"/>
     </div>
 
     <label class="my-2">이메일 (아이디)</label>
     <div class="d-flex flex-column mb-4">
-        <!--<input type="text" id="id" name="id" value="${kakao_id}" class="col-12 mr-3" maxlength="255" placeholder="6~30자 이메일 형식(특수문자 사용불가)" pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-z]{2,3}$" />-->
         <input type="text" id="id" name="id" value="${kakao_id}" class="col-12 mr-3" maxlength="255" placeholder="6~30자 이메일 형식(특수문자 사용불가)" autocomplete="off"/>
         <div class="hidden warning">※ 이미 사용중인 아이디입니다.</div>
     </div>
@@ -208,9 +207,6 @@
         background-color: white;
         color: #6c757d;
         cursor: not-allowed;
-    }
-    .red-border {
-        border: 1px solid red;
     }
     .hidden {
         display: none;

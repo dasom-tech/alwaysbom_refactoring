@@ -1,6 +1,6 @@
 package com.flo.alwaysbom.order.service;
 
-import com.flo.alwaysbom.member.vo.MemberVO;
+import com.flo.alwaysbom.member.vo.MemberVo;
 import com.flo.alwaysbom.order.vo.OitemVo;
 import com.flo.alwaysbom.order.vo.OrderPriceDto;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class OrderPriceService {
 
-    public OrderPriceDto getOrderPrice(List<OitemVo> olist, MemberVO mvo) {
+    public OrderPriceDto getOrderPrice(List<OitemVo> olist, MemberVo mvo) {
 
         // 전체 금액
         int totalPrice = 0;
