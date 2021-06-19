@@ -61,29 +61,6 @@
         }
     }
 
-    Kakao.init("a7ed8ce3bc2337bb4281fa9fc4d51ddd");
-    Kakao.isInitialized();
-
-    function kakaoLogin() {
-        Kakao.Auth.login({
-            scope:'profile, account_email, gender, birthday',
-            success: function (authObj) {
-                window.Kakao.API.request({
-                    url:'/v2/user/me',
-                    success: res => {
-                        const kakao_account = res.kakao_account;
-                        console.log(kakao_account);
-
-                        var kakao_id = kakao_account.email;
-                        var kakao_name = kakao_account.profile.nickname;
-                        var kakao_gender = kakao_account.gender;
-
-                        location.href="/member_join?kakao_id=" + kakao_id + "&kakao_name=" + kakao_name +"&kakao_gender=" + kakao_gender;
-                    }
-                });
-            }
-        });
-    }
     function checkVal(form) {
 
         let input_id = document.querySelector("#id_email");
